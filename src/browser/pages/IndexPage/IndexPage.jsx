@@ -13,9 +13,9 @@ import MoodsList from 'browser/components/MoodsList'
 import ForumsList from 'browser/components/ForumsList'
 import PageWrapper from 'browser/components/PageWrapper'
 import WelcomeCard from 'browser/components/WelcomeCard'
-import ThreadsList from 'browser/components/ThreadsList'
+import TasksList from 'browser/components/TasksList'
 import MoodsInsert from 'browser/components/MoodsInsert'
-import CreateForumForm from 'browser/components/CreateForumForm'
+import CreateTaskForm from 'browser/components/CreateTaskForm'
 
 class IndexPage extends PureComponent {
     render() {
@@ -24,14 +24,8 @@ class IndexPage extends PureComponent {
 					className='IndexPage'
 					loading={props.loading}
 				>
-					<WelcomeCard />
-					{/* <MoodsInsert /> */}
-					<b>{t('forums_list')}:</b>
-					<ForumsList />
-					{/* <b>Список тредов:</b>
-					<ThreadsList /> */}
-					<CreateForumForm />
-					{/* <MoodTabs /> */}
+					<CreateTaskForm />
+					<TasksList />
 				</PageWrapper>
     }
 }

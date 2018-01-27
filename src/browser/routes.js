@@ -16,7 +16,9 @@ import {
   fetchThread,
   fetchThreads,
 } from 'browser/redux/forum/ForumActions'
-
+import {
+  fetchTasks,
+} from 'browser/redux/task/TaskActions'
 /**
  * fetching is done in router config in order to properly prefetch data in SSR
  */
@@ -39,19 +41,12 @@ const routesConfig = {
     // fetch data
     onEnter({params}, replace, done) {
       // check if fetching is needed
-      const fetchedForums = store.getState().forum.getIn(['forums', 'values'])
-      if (fetchedForums.size) return done()
+      const fetchedTasks = store.getState().task.getIn(['tasks', 'values'])
+      if (fetchedTasks.size) return done()
       else {
         store
-        .dispatch(fetchForums())
+        .dispatch(fetchTasks())
         .then(() => done())
-        // Promise
-        // .all([
-        //   store.dispatch(fetchMoods('new')),
-        //   store.dispatch(fetchMoods('random')),
-        //   store.dispatch(fetchMoods('popular')),
-        // ])
-        // .then(() => done())
       }
     }
   },

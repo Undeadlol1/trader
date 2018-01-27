@@ -20,9 +20,9 @@ describe('<IndexPage />', () => {
     expect(wrapper.type().name).to.eq('PageWrapper')
   });
 
-  it('has <WelcomeCard>', () => {
-    expect(wrapper.find('withCookies(WelcomeCard)')).to.have.length(1);
-  });
+  // it('has <WelcomeCard>', () => {
+  //   expect(wrapper.find('withCookies(WelcomeCard)')).to.have.length(1);
+  // });
 
   // it('has <MoodsInsert>', () => {
   //   // TODO 'ReduxForm' does not seems right

@@ -9,6 +9,7 @@ import mood, { initialState as moodState } from './MoodReducer'
 import node, { initialState as nodeState } from './NodeReducer'
 import forum, { initialState as forumState } from 'browser/redux/forum/ForumReducer'
 import ui, { initialState as uiState } from 'browser/redux/ui/UiReducer' 
+import task, { initialState as taskState } from 'browser/redux/task/TaskReducer' 
 // ⚠️ First hook for cli! Do not remove 💀 
 
 export const initialState = {
@@ -18,6 +19,7 @@ export const initialState = {
     node: nodeState,
 forum: forumState,
 ui: uiState, 
+task: taskState, 
 // ⚠️ Second hook for cli! Do not remove 💀 
 }
 
@@ -31,5 +33,6 @@ export default combineReducers({
     routing,
 forum,
 ui, 
+task, 
 // ⚠️ Third hook for cli! Do not remove 💀 
 })

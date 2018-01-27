@@ -11,7 +11,7 @@ const extend = require('lodash/assignIn')
 const { parseUrl } = require('shared/parsers.js')
 const userFixtures = require('server/data/fixtures/users.js')
 const getRandomDate = require('random-date-generator').getRandomDate
-const { User, Local, Forums, Threads, Mood, Node, Decision, Profile } = require('server/data/models/index.js')
+const { User, Local, Forums, Threads, Mood, Node, Decision, Profile, Tasks } = require('server/data/models/index.js')
 chai.should()
 
 // TODO move this to fixtures
@@ -178,7 +178,8 @@ async function cleanUpDB() {
         await Decision.destroy(all)
         await Forums.destroy(all)
         await Threads.destroy(all)
-        // ⚠️ Hook for cli! Do not remove 💀
+        await Tasks.destroy(all)
+// ⚠️ Hook for cli! Do not remove 💀
     }
     catch(error) {
         console.log(error)
