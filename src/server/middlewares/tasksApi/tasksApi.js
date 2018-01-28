@@ -35,7 +35,8 @@ if (process.env.NODE_ENV != 'test') {
       // fetch data
       // await fetchPricesAndSave()
       // await fetchBalance()
-      // await fetchOpenOrders()
+      global.orders = await fetchOpenOrders()
+      // console.log('global.orders: ', global.orders);
       // console.log('prices: ', prices);
       // const accountOrders =
       // const accountBalance =

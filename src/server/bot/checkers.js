@@ -60,9 +60,6 @@ export async function pricesAreRecent(symbol, differenceInMinutes = 2) {
  * @returns {boolean} to hold or not
  */
 export function shouldRideTheWave(initialPrice, previousPrice, newPrice, allowedMargin, preventLossPercent = 5) {
-    console.log('initialPrice: ', initialPrice);
-    console.log('previousPrice: ', previousPrice);
-    console.log('newPrice: ', newPrice);
     // check if there was bigger overall losss then allowed
     if (initialPrice && initialPrice > newPrice) {
         const currentLossPercent = 100 - ((initialPrice * 100) / newPrice)
@@ -70,7 +67,6 @@ export function shouldRideTheWave(initialPrice, previousPrice, newPrice, allowed
     }
     // check if therere is a gain
     const currentGainPercent = 100 - ((previousPrice * 100) / newPrice)
-    console.log('currentGainPercent: ', currentGainPercent);
     if (currentGainPercent >= 0) return true
     // or check if lose is not too big
     else if (currentGainPercent >= (allowedMargin * -1)) {

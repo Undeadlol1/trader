@@ -25,10 +25,7 @@ export function fetchOpenOrders() {
     if (process.env.NODE_ENV == 'test') return Promise.resolve([])
     return binanceRest
         .openOrders()
-        .then(res => {
-            console.log('res', res)
-            return res
-        })
+        .then(res => res)
         .catch(error => {
             console.warn('error occured in fetchOpenOrders()')
             console.error(error)
