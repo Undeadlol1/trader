@@ -5,24 +5,48 @@ import { setInterval } from 'timers'
 import { Tasks } from 'server/data/models'
 import handleTasks from 'server/bot/handleTasks'
 import { mustLogin } from 'server/services/permissions'
-import { fetchPricesAndSave } from 'server/bot/binanceApi'
+import { fetchPricesAndSave, fetchBalance, fetchOpenOrders } from 'server/bot/binanceApi'
 
 const limit = 12
-const interval = 1000 * 30
+const interval = 1000 * 30 * 2 // 1 minute minimum to avoid timeout
+
+/*
+order example:
+{ symbol: 'ETHBTC',
+[1]     orderId: 62349512,
+[1]     clientOrderId: 'IMNw6qh6dJb9l8HQVzgK0C',
+[1]     price: '0.08900000',
+[1]     origQty: '6.44400000',
+[1]     executedQty: '0.00000000',
+[1]     status: 'NEW',
+[1]     timeInForce: 'GTC',
+[1]     type: 'LIMIT',
+[1]     side: 'BUY',
+[1]     stopPrice: '0.00000000',
+[1]     icebergQty: '0.00000000',
+[1]     time: 1516835193760,
+[1]     isWorking: true },
+*/
 
 if (process.env.NODE_ENV != 'test') {
   setInterval(async () => {
-    console.log('interval is running')
-    // fetch data
-    const prices = await fetchPricesAndSave()
-    // console.log('prices: ', prices);
-    // const accountOrders =
-    // const accountBalance =
-    // check if there are active tasks
-    const activeTasks = await Tasks.findAll({where: {isDone: false}})
-    console.log('activeTasks: ', activeTasks && activeTasks.length);
-    // handle tasks if there are
-    if (activeTasks) handleTasks(activeTasks)
+    try {
+      console.log('interval is running')
+      // fetch data
+      // await fetchPricesAndSave()
+      // await fetchBalance()
+      // await fetchOpenOrders()
+      // console.log('prices: ', prices);
+      // const accountOrders =
+      // const accountBalance =
+      // check if there are active tasks
+      const activeTasks = await Tasks.findAll({where: {isDone: false}})
+      console.log('activeTasks: ', activeTasks && activeTasks.length);
+      // handle tasks if there are
+      if (activeTasks) handleTasks(activeTasks)
+    } catch (error) {
+      throw error
+    }
   }, interval);
 }
 

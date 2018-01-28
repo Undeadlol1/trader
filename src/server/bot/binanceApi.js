@@ -1,6 +1,6 @@
 import 'isomorphic-fetch' // TODO move to server? or to webpack?
 import binanceApi from 'binance'
-import { Prices } from 'server/data/models'
+import { Prices, Balances } from 'server/data/models'
 
 const apiKey = process.env.BINANCE_KEY
 const secretKey = process.env.BINANCE_SECRET
@@ -16,7 +16,7 @@ export function buy() {
 
 /**
  * WIP should not use
- * returns {Promise}
+ * @returns {Promise}
  */
 export function fetchOpenOrders() {
     // this is important
@@ -30,6 +30,7 @@ export function fetchOpenOrders() {
             return res
         })
         .catch(error => {
+            console.warn('error occured in fetchOpenOrders()')
             console.error(error)
             throw error
         })
@@ -56,13 +57,14 @@ export function fetchOpenOrders() {
 
 /**
  * fetch prices info and save it in database
- * returns {promise} promise created by Prices.bulkCreate
+ * @returns {promise} promise created by Prices.bulkCreate
  */
 export function fetchPricesAndSave() {
     return fetch('https://binance.com/api/v1/ticker/allPrices')
         .then(res => res.json())
         .then(data => Prices.bulkCreate(data))
         .catch(error => {
+            console.warn('error occured in fetchPricesAndSave()')
             console.error(error)
             throw error
         })
@@ -79,10 +81,12 @@ export function fetchBalance() {
     return binanceRest
         .account()
         .then(res => {
-            // console.log('res', res)
-            return res
+            return Balances
+                .bulkCreate(res)
+                .then(() => res)
         })
         .catch(error => {
+            console.warn('error occured in fetchBalance()')
             console.error(error)
             throw error
         })
