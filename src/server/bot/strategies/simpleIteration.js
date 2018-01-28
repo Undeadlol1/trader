@@ -17,7 +17,7 @@ export default async function(task) {
         const price = await Prices.getLatestPrice(task.symbol)
         const balance = await Balances.getLatest(task.symbol.slice(0, -3))
         // const orders
-        if (!pricesAreRecent(task.symbol)) return
+        if (await !pricesAreRecent(task.symbol)) return
         if (task.isTest) {
 
         }

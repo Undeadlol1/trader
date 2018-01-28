@@ -13,11 +13,9 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING,
     },
     free: {
-        allowNull: false,
         type: DataTypes.STRING,
     },
     locked: {
-        allowNull: false,
         type: DataTypes.STRING,
     },
     isTest: {
@@ -29,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       tableName: 'balances',
       freezeTableName: true,
-      getLates: function(asset) {
+      getLatest: function(asset) {
           return Balances.findOne({
             raw: true,
             where: {asset: asset},

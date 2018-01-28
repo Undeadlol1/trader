@@ -1,3 +1,4 @@
+import buyAndSell from 'server/bot/strategies/buyAndSell'
 import simpleIteration from 'server/bot/strategies/simpleIteration'
 
 /**
@@ -6,13 +7,14 @@ import simpleIteration from 'server/bot/strategies/simpleIteration'
  */
 export default async function(tasks) {
     try {
-        tasks.map(task => {
+        tasks.map(async task => {
             switch (task.strategy) {
+                case 'buy_sell':
+                    return await buyAndSell(task)
                 case 'simple_iteration':
-                    simpleIteration(task)
-                    break;
+                    return await simpleIteration(task)
                 default:
-                    break;
+                    return
             }
         })
     } catch (error) {

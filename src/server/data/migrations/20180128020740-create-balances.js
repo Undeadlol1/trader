@@ -14,11 +14,9 @@ module.exports = {
           type: Sequelize.STRING,
       },
       free: {
-          allowNull: false,
           type: Sequelize.STRING,
       },
       locked: {
-          allowNull: false,
           type: Sequelize.STRING,
       },
       isTest: {
