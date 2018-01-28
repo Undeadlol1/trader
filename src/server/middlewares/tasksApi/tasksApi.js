@@ -5,6 +5,7 @@ import { setInterval } from 'timers'
 import { Tasks } from 'server/data/models'
 import handleTasks from 'server/bot/handleTasks'
 import { mustLogin } from 'server/services/permissions'
+import { fetchPricesAndSave } from 'server/bot/binanceApi'
 
 const limit = 12
 const interval = 1000 * 30
@@ -13,7 +14,8 @@ if (process.env.NODE_ENV != 'test') {
   setInterval(async () => {
     console.log('interval is running')
     // fetch data
-    // const prices =
+    const prices = await fetchPricesAndSave()
+    // console.log('prices: ', prices);
     // const accountOrders =
     // const accountBalance =
     // check if there are active tasks

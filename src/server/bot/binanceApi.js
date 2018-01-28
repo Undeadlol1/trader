@@ -56,7 +56,7 @@ export function fetchOpenOrders() {
 
 /**
  * fetch prices info and save it in database
- * returns {Promise} promise of Prices.bulkCreate()
+ * returns {promise} promise created by Prices.bulkCreate
  */
 export function fetchPricesAndSave() {
     return fetch('https://binance.com/api/v1/ticker/allPrices')
