@@ -2,7 +2,7 @@ import buyAndSell from 'server/bot/strategies/buyAndSell'
 import simpleIteration from 'server/bot/strategies/simpleIteration'
 
 /**
- * go over tasks and handle when by with proper strategies
+ * go over tasks and handle them with proper strategies
  * @param {array} tasks
  */
 export default async function(tasks) {
