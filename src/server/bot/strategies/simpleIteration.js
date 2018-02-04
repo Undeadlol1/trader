@@ -1,4 +1,4 @@
-import { Prices } from 'server/data/models'
+import { Prices, Balances } from 'server/data/models'
 import { pricesAreRecent } from '../checkers'
 /**
  * simple strategy which buys and sells

@@ -4,10 +4,11 @@ import simpleIteration from 'server/bot/strategies/simpleIteration'
 /**
  * go over tasks and handle them with proper strategies
  * @param {array} tasks
+ * @returns {array} array of possible buy/sell orders
  */
 export default async function(tasks) {
     try {
-        tasks.map(async task => {
+        return await tasks.map(async task => {
             switch (task.strategy) {
                 case 'buy_sell':
                     return await buyAndSell(task)
@@ -21,3 +22,10 @@ export default async function(tasks) {
         throw error
     }
 }
+/**
+ * handleTasks returns array of orders
+ * orders.forEach(order => {
+ *  log(sometext)
+ *  buyOrSell(order)
+ * })
+ */

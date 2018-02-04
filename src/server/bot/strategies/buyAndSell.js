@@ -1,5 +1,6 @@
 import { Prices, Balances } from 'server/data/models'
 import { pricesAreRecent } from '../checkers'
+import selectn from 'selectn'
 
 /**
  * simple strategy which buys and sells currency at given price
@@ -14,15 +15,15 @@ export default async function(task) {
      * else do nothing
      */
     try {
-        const price = await Prices.getLatestPrice(task.symbol)
+        const price = selectn('price', await Prices.getLatestPrice(task.symbol))
         const balance = await Balances.getLatest(task.symbol.slice(0, -3))
         // does user have enough currency to sell
-        const hasEnoughCurrency = balance && balance.free >= task.toSpend * price.price
+        const hasEnoughCurrency = selectn('free', balance) >= task.toSpend * price
         // check if prices are recent enough
         if (await !pricesAreRecent(task.symbol)) return
         // if user has enough currency already he should not buy
-        if (!hasEnoughCurrency && (task.buyAt >= price.price)) return { isBuy: true }
-        else if (hasEnoughCurrency && (task.sellAt <= price.price)) return { isSell: true }
+        if (!hasEnoughCurrency && (task.buyAt >= price)) return { isBuy: true }
+        else if (hasEnoughCurrency && (task.sellAt <= price)) return { isSell: true }
     } catch (error) {
         throw error
     }

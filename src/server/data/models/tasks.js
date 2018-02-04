@@ -8,10 +8,25 @@ module.exports = function(sequelize, DataTypes) {
       validate: { isUUID: 4 },
       defaultValue: DataTypes.UUIDV4,
     },
+    symbol: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    buyAt: {
+      type: DataTypes.STRING,
+    },
+    sellAt: {
+      type: DataTypes.STRING,
+    },
     payload: {
       type: DataTypes.STRING,
     },
     isDone: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN,
+    },
+    isTest: {
       allowNull: false,
       defaultValue: false,
       type: DataTypes.BOOLEAN,
