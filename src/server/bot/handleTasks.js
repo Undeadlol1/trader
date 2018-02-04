@@ -22,6 +22,20 @@ export default async function(tasks) {
         throw error
     }
 }
+
+export async function handleOrders(orders) {
+    try {
+        orders && orders.forEach(async order => {
+            if (!prder) return
+            if (order.isTest) {
+                //
+            }
+            // else
+        })
+    } catch (error) {
+        throw error
+    }
+}
 /**
  * handleTasks returns array of orders
  * orders.forEach(order => {
