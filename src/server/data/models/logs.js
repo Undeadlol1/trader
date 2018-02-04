@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING,
     },
+    TaskId: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
     UserId: {
       allowNull: false,
       type: DataTypes.INTEGER
@@ -32,6 +36,9 @@ module.exports = function(sequelize, DataTypes) {
       freezeTableName: true,
       associate: function(models) {
         Logs.belongsTo(models.User, {
+          foreignKey: {allowNull: false}
+        });
+        Logs.belongsTo(models.Tasks, {
           foreignKey: {allowNull: false}
         });
       },

@@ -1,3 +1,4 @@
+import { Logs, Tasks } from 'server/data/models'
 import buyAndSell from 'server/bot/strategies/buyAndSell'
 import simpleIteration from 'server/bot/strategies/simpleIteration'
 
@@ -22,20 +23,6 @@ export default async function(tasks) {
         throw error
     }
 }
-
-export async function handleOrders(orders) {
-    try {
-        orders && orders.forEach(async order => {
-            if (!prder) return
-            if (order.isTest) {
-                //
-            }
-            // else
-        })
-    } catch (error) {
-        throw error
-    }
-}
 /**
  * handleTasks returns array of orders
  * orders.forEach(order => {
@@ -43,3 +30,28 @@ export async function handleOrders(orders) {
  *  buyOrSell(order)
  * })
  */
+export async function handleOrders(orders) {
+    try {
+        orders && orders.forEach(async order => {
+            // do nothing if there is no order
+            if (!order) return
+            // if order is not a test run sell/buy functions
+            if (!order.isTest) {
+                // run actual functions here
+            }
+            // create log messages
+            await Logs.create({
+                ...order,
+                message: order.side == 'BUY' ? 'Bought a coin' : 'Sold a coin'
+            })
+            // TODO: tests
+            // if ".isDone" is set update Task
+            if (order.isDone) {
+                await Tasks.update({isDone: true}, {where: {id: odrder.TaskId}})
+            }
+            return
+        })
+    } catch (error) {
+        throw error
+    }
+}

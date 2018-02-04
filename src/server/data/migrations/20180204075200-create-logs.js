@@ -23,6 +23,10 @@ module.exports = {
           allowNull: false,
           type: Sequelize.STRING,
       },
+      TaskId: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       UserId: {
         allowNull: false,
         type: Sequelize.INTEGER
