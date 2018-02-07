@@ -30,6 +30,7 @@ export default async function(task) {
             isSell: true,
             isDone: true,
             isBought: task.isTest,
+            profit: (task.sellAt - task.buyAt) * task.toSpend
         }
     } catch (error) {
         throw error

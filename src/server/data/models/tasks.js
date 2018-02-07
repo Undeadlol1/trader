@@ -27,6 +27,9 @@ module.exports = function(sequelize, DataTypes) {
     payload: {
       type: DataTypes.STRING,
     },
+    profit: {
+      type: DataTypes.STRING,
+    },
     isDone: {
       allowNull: false,
       defaultValue: false,

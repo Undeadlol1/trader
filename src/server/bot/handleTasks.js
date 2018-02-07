@@ -54,7 +54,7 @@ export async function handleOrders(orders) {
             }
             // if ".isDone" is set update Task
             if (order.isDone) {
-                await Tasks.update({isDone: true}, where)
+                await Tasks.update({isDone: true, profit: order.profit}, where)
             }
             return
         })
