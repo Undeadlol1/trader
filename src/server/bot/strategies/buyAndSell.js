@@ -23,7 +23,7 @@ export default async function(task) {
         if (await !pricesAreRecent(task.symbol)) return
         // if user has enough currency already he should not buy
         if (!hasEnoughCurrency && (task.buyAt >= price)) return { isBuy: true }
-        else if (hasEnoughCurrency && (task.sellAt <= price)) return { isSell: true }
+        else if (hasEnoughCurrency && (task.sellAt <= price)) return { isSell: true, isDone: true }
     } catch (error) {
         throw error
     }

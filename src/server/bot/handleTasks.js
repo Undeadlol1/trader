@@ -39,11 +39,14 @@ export async function handleOrders(orders) {
             if (!order.isTest) {
                 // run actual functions here
             }
+            const sellMessage = 'Sold a coin'
+            const buyMessage = 'Bought a coin'
             // create log messages
             await Logs.create({
                 ...order,
-                message: order.side == 'BUY' ? 'Bought a coin' : 'Sold a coin'
+                message: order.side == 'BUY' ? buyMessage : sellMessage
             })
+            // console.log('what i did:', order.side == 'BUY' ? buyMessage : sellMessage)
             // TODO: tests
             // if ".isDone" is set update Task
             if (order.isDone) {

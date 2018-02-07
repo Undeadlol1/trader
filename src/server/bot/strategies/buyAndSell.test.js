@@ -35,6 +35,7 @@ describe('buyAndSell should return', () => {
             const response = await buyAndSell(task)
             expect(response).to.be.a('object')
             expect(response).to.have.property('isSell', true)
+            expect(response).to.have.property('isDone', true)
         }
     )
 

@@ -1,5 +1,6 @@
 import { Prices, Balances } from 'server/data/models'
 import { pricesAreRecent } from '../checkers'
+import selectn from 'selectn'
 /**
  * simple strategy which buys and sells
  * currency at given price untill task is cancelled
@@ -14,7 +15,7 @@ export default async function(task) {
      * else do nothing
      */
     try {
-        const price = await Prices.getLatestPrice(task.symbol)
+        const price = selectn('price', await Prices.getLatestPrice(task.symbol))
         const balance = await Balances.getLatest(task.symbol.slice(0, -3))
         // const orders
         if (await !pricesAreRecent(task.symbol)) return
