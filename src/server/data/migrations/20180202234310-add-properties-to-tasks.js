@@ -22,6 +22,8 @@ module.exports = {
     .then(() => queryInterface.addColumn('tasks', 'buyAt', Sequelize.STRING))
     .then(() => queryInterface.addColumn('tasks', 'sellAt', Sequelize.STRING))
     .then(() => queryInterface.addColumn('tasks', 'toSpend', Sequelize.STRING))
+    .then(() => queryInterface.addColumn('tasks', 'isBought', Sequelize.STRING))
+    .then(() => queryInterface.addColumn('tasks', 'isSold', Sequelize.STRING))
   },
 
   down: (queryInterface, Sequelize) => {
@@ -31,5 +33,7 @@ module.exports = {
       .then(() => queryInterface.removeColumn('tasks', 'sellAt'))
       .then(() => queryInterface.removeColumn('tasks', 'isTest'))
       .then(() => queryInterface.removeColumn('tasks', 'toSpend'))
+      .then(() => queryInterface.removeColumn('tasks', 'isBought'))
+      .then(() => queryInterface.removeColumn('tasks', 'isSold'))
   }
 };

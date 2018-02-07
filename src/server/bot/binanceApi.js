@@ -4,7 +4,7 @@ import { Prices, Balances } from 'server/data/models'
 
 const apiKey = process.env.BINANCE_KEY
 const secretKey = process.env.BINANCE_SECRET
-const binanceRest = new binanceApi.BinanceRest({key: apiKey, secret: secretKey})
+const binanceRest = new binanceApi.BinanceRest({key: apiKey, secret: secretKey, handleDrift: true})
 
 export function sell() {
 

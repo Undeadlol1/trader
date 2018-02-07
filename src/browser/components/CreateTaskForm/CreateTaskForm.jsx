@@ -17,6 +17,9 @@ import { actions } from 'browser/redux/actions/GlobalActions'
 import { parseJSON } from'browser/redux/actions/actionHelpers'
 import { insertTask } from 'browser/redux/task/TaskActions'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
+import MenuItem from 'material-ui/MenuItem';
+import SelectField from 'material-ui/SelectField';
+import Checkbox from 'material-ui/Checkbox';
 
 export class CreateTaskForm extends Component {
 	render() {
@@ -26,25 +29,64 @@ export class CreateTaskForm extends Component {
 		const { insertTask, handleSubmit, asyncValidating } = props
 		const classNames = cls(props.className, "CreateTaskForm")
 		const isDisabled = asyncValidating == 'name' || props.submitting
+		const required = value => (value == null ? 'Required' : undefined);
 	    return 	<Row className={classNames}>
 					<Col xs={12}>
 						<form onSubmit={handleSubmit(insertTask)}>
+								{/* <Field
+									fullWidth
+									name="strategy"
+									hintText="strategy"
+									// validate={required}
+									component={SelectField}
+									floatingLabelText="strategy"
+								>
+									<MenuItem value="buy_sell" primaryText="Купи + продай" />
+								</Field> */}
+							{/* <Field name="isTest" component={Checkbox} label="Это тест" /> */}
 							<Field
 								fullWidth
-								name="name"
+								name="strategy"
+								hintText="strategy"
 								component={TextField}
 								hidden={asyncValidating}
-								hintText={translate("add_something")}
 							/>
-							{/* <Field
-								rows={2}
+							{"buy_sell" + '\n'}
+							{"simple_iteration"}
+							<Field
 								fullWidth
-								name="text"
-								multiLine={true}
+								name="symbol"
+								hintText="symbol"
 								component={TextField}
 								hidden={asyncValidating}
-								hintText={translate("description")}
-							/> */}
+							/>
+							<Field
+								step="any"
+								fullWidth
+								type="number"
+								name="toSpend"
+								hintText="toSpend"
+								component={TextField}
+								hidden={asyncValidating}
+							/>
+							<Field
+								step="any"
+								fullWidth
+								type="number"
+								name="buyAt"
+								hintText="buyAt"
+								component={TextField}
+								hidden={asyncValidating}
+							/>
+							<Field
+								step="any"
+								fullWidth
+								type="number"
+								name="sellAt"
+								hintText="sellAt"
+								component={TextField}
+								hidden={asyncValidating}
+							/>
 							<center>
 								<RaisedButton
 									type="submit"
@@ -91,14 +133,17 @@ export default reduxForm({
 	}),
     (dispatch, ownProps) => ({
         insertTask(values) {
+			console.log('values.isTest: ', values.isTest);
+			console.log('values.strategy: ', values.strategy);
+			console.log('values: ', values);
 			console.log('insertTask')
 			// values.parentId = ownProps.parentId
 
-			function insertSucces(forum) {
-				ownProps.reset()
-				// browserHistory.push('/forum/' + forum.slug);
-			}
-            dispatch(insertTask(values, insertSucces))
+			// function insertSucces(forum) {
+			// 	ownProps.reset()
+			// 	// browserHistory.push('/forum/' + forum.slug);
+			// }
+            // dispatch(insertTask({...values, isTest: true}, insertSucces))
 		}
     })
 )(CreateTaskForm))

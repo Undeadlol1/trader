@@ -48,9 +48,13 @@ export async function handleOrders(orders) {
             })
             // console.log('what i did:', order.side == 'BUY' ? buyMessage : sellMessage)
             // TODO: tests
+            const where = {where: {id: order.TaskId}}
+            if (order.isTest) {
+                await Tasks.update(order, where) // TODO: this migh be a problem someday
+            }
             // if ".isDone" is set update Task
             if (order.isDone) {
-                await Tasks.update({isDone: true}, {where: {id: odrder.TaskId}})
+                await Tasks.update({isDone: true}, where)
             }
             return
         })

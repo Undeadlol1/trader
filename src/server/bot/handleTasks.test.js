@@ -35,7 +35,7 @@ const orders = [
     }
 ]
 
-describe('handleTasks:', () => {
+describe('handleTasks.js:', () => {
     // it('should return array of orders', async () => {
     //     const orders = await Promise.all(await handleTasks(tasks))
     //     console.log('orders: ', orders);
@@ -59,5 +59,12 @@ describe('handleTasks:', () => {
             'there must be 1 Log after function runs'
         )
     })
+
+    // it(
+    //     'handleOrders() if isTest updates "isBought" and "isSold"',
+    //     async () => {
+
+    //     }
+    // )
 
 })
