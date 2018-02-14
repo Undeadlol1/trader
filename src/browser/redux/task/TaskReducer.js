@@ -4,19 +4,32 @@ import { Map, List, fromJS } from 'immutable'
 // TODO: rework into using "fromJS" which converts better (this way many bugs in reducer can be avoided)
 
 const taskStructure =  {
-							id: '',
-							url: '',
-							type: '',
+							symbol: '',
+							buyAt: '',
+							sellAt: '',
+							isBought: '',
+							isSold: '',
+							payload: '',
+							profit: '',
+							isDone: '',
+							isTest: '',
+							strategy: '',
 							UserId: '',
-							TaskId: '',
-							rating: '',
-							provider: '',
-							contentId: '',
+							logs: {
+								values: [],
+								totalPages: 0,
+								currentPage: 0,
+							},
 						}
 
 export const initialState = fromJS({
 							error: '',
 							tasks: {
+								values: [],
+								totalPages: 0,
+								currentPage: 0,
+							},
+							logs: {
 								values: [],
 								totalPages: 0,
 								currentPage: 0,
@@ -40,7 +53,7 @@ export default (state = initialState, {type, payload}) => {
 		// 	})
 		case 'ADD_TASK':
 			return state
-				.updateIn(['tasks'], arr => {
+				.updateIn(['tasks', 'values'], arr => {
 					return isEmpty(payload)
 						? arr
 						: arr.push(Map(payload))

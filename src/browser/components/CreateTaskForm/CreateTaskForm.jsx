@@ -2,11 +2,11 @@ import cls from 'classnames'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import store from 'browser/redux/store'
-import Dialog from 'material-ui/Dialog'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
+import MenuItem from 'material-ui/MenuItem';
+import Checkbox from 'material-ui/Checkbox';
 import FlatButton from 'material-ui/FlatButton'
-import { TextField } from 'redux-form-material-ui'
 import { Form, Field, reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import { translate } from 'browser/containers/Translator'
@@ -17,48 +17,54 @@ import { actions } from 'browser/redux/actions/GlobalActions'
 import { parseJSON } from'browser/redux/actions/actionHelpers'
 import { insertTask } from 'browser/redux/task/TaskActions'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import MenuItem from 'material-ui/MenuItem';
-import SelectField from 'material-ui/SelectField';
-import Checkbox from 'material-ui/Checkbox';
+import {
+	// Checkbox,
+	RadioGroup,
+	Select,
+	TextField,
+	Switch,
+	SelectField,
+  } from 'redux-form-material-ui'
+
+
+const renderCheckbox = ({ input, label }) => (
+	<Checkbox label={label}
+		checked={input.value ? true : false}
+		onCheck={input.onChange}/>
+)
 
 export class CreateTaskForm extends Component {
 	render() {
 		// hide component if user is not admin
-		if (this.props.UserId != process.env.ADMIN_ID) return null
+		// if (this.props.UserId != process.env.ADMIN_ID) return null
 		const { props } = this
 		const { insertTask, handleSubmit, asyncValidating } = props
 		const classNames = cls(props.className, "CreateTaskForm")
 		const isDisabled = asyncValidating == 'name' || props.submitting
 		const required = value => (value == null ? 'Required' : undefined);
+		// console.log('Select: ', Select);
 	    return 	<Row className={classNames}>
 					<Col xs={12}>
 						<form onSubmit={handleSubmit(insertTask)}>
-								{/* <Field
-									fullWidth
-									name="strategy"
-									hintText="strategy"
-									// validate={required}
-									component={SelectField}
-									floatingLabelText="strategy"
-								>
-									<MenuItem value="buy_sell" primaryText="Купи + продай" />
-								</Field> */}
-							{/* <Field name="isTest" component={Checkbox} label="Это тест" /> */}
 							<Field
+								required
 								fullWidth
 								name="strategy"
-								hintText="strategy"
-								component={TextField}
-								hidden={asyncValidating}
-							/>
-							{"buy_sell" + '\n'}
-							{"simple_iteration"}
+								hintText="Стратегия"
+								component={SelectField}
+								floatingLabelText="Стратегия"
+							>
+								<MenuItem value="buy_sell" primaryText="Купи + продай" />
+								<MenuItem value="simple_iteration" primaryText="Бесконечный купи+продай" />
+							</Field>
 							<Field
+								required
 								fullWidth
 								name="symbol"
-								hintText="symbol"
+								hintText="Symbol"
 								component={TextField}
 								hidden={asyncValidating}
+								floatingLabelText="Symbol"
 							/>
 							<Field
 								step="any"
@@ -68,6 +74,7 @@ export class CreateTaskForm extends Component {
 								hintText="toSpend"
 								component={TextField}
 								hidden={asyncValidating}
+								floatingLabelText="toSpend"
 							/>
 							<Field
 								step="any"
@@ -77,6 +84,7 @@ export class CreateTaskForm extends Component {
 								hintText="buyAt"
 								component={TextField}
 								hidden={asyncValidating}
+								floatingLabelText="buyAt"
 							/>
 							<Field
 								step="any"
@@ -86,7 +94,9 @@ export class CreateTaskForm extends Component {
 								hintText="sellAt"
 								component={TextField}
 								hidden={asyncValidating}
+								floatingLabelText="sellAt"
 							/>
+							<Field name="isTest" component={renderCheckbox} label="Тест?"/>
 							<center>
 								<RaisedButton
 									type="submit"
@@ -112,8 +122,8 @@ export default reduxForm({
 		let errors = {}
 		const user = store.getState().user.get('id')
 
-		if (!user) errors.name = translate('please_login')
-		if (!values.name) errors.name = translate('name_cant_be_empty')
+		// if (!user) errors.name = translate('please_login')
+		// if (!values.name) errors.name = translate('name_cant_be_empty')
 		// if (!values.text) errors.text = translate('cant_be_empty')
 
 		return errors
@@ -133,17 +143,17 @@ export default reduxForm({
 	}),
     (dispatch, ownProps) => ({
         insertTask(values) {
+			console.log('insertTask')
 			console.log('values.isTest: ', values.isTest);
 			console.log('values.strategy: ', values.strategy);
 			console.log('values: ', values);
-			console.log('insertTask')
 			// values.parentId = ownProps.parentId
 
 			// function insertSucces(forum) {
 			// 	ownProps.reset()
 			// 	// browserHistory.push('/forum/' + forum.slug);
 			// }
-            // dispatch(insertTask({...values, isTest: true}, insertSucces))
+            dispatch(insertTask({...values}))
 		}
     })
 )(CreateTaskForm))

@@ -38,6 +38,7 @@ export async function handleOrders(orders) {
             // if order is not a test run sell/buy functions
             if (!order.isTest) {
                 // run actual functions here
+                // TODO: don't forget about fee calculation
             }
             const sellMessage = 'Sold a coin'
             const buyMessage = 'Bought a coin'

@@ -2,6 +2,7 @@ import 'babel-polyfill'
 import slugify from 'slug'
 import request from 'supertest'
 import server from 'server/server'
+import generateUuid from 'uuid/v4'
 import chai, { assert, expect } from 'chai'
 import users from 'server/data/fixtures/users'
 import { Tasks, User } from 'server/data/models'
@@ -12,21 +13,16 @@ const   agent = request.agent(server),
         username = users[0].username,
         password = users[0].password,
         name = "random name",
-        slug = slugify(name)
+        slug = slugify(name),
+        symbol = 'ETHBTC'
 
 export default describe('/tasks API', function() {
 
-    // before(async function() {
-    //     // TODO add logout? to test proper user login?
-    //     // Kill supertest server in watch mode to avoid errors
-    //     server.close()
+    // Kill supertest server in watch mode to avoid errors
+    before(async () => server.close())
 
-    // })
-
-    // // clean up
-    // after(function() {
-    //     return Tasks.destroy({where: { name }})
-    // })
+    // clean up
+    after(async () => Tasks.destroy({where: {symbol}}))
 
     // it('POST task', async function() {
     //     const user = await loginUser(username, password)
@@ -55,17 +51,26 @@ export default describe('/tasks API', function() {
     //         });
     // })
 
-    // it('GET single task', function(done) {
-    //     agent
-    //         .get('/api/tasks/task/' + slug )
-    //         .expect('Content-Type', /json/)
-    //         .expect(200)
-    //         .end(function(err, res) {
-    //             if (err) return done(err);
-    //             res.body.name.should.be.equal(name)
-    //             done()
-    //         });
-    // })
+    it('GET single task', async () => {
+        const payload = {
+            symbol,
+            UserId: 12323,
+            strategy: 'buy_sell',
+        }
+        const task = await Tasks.create(payload)
+        await agent
+            .get('/api/tasks/task/' + task.id)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then(({body}) => {
+                const { logs } = body
+                expect(body).to.have.property('id', task.id)
+                expect(body).to.have.properties(payload)
+                expect(logs.values).to.be.a('array')
+                // expect(logs.total).to.eq(1)
+                // expect(logs.values).to.eq(1)
+            })
+    })
 
     // // TODO PUT test
 

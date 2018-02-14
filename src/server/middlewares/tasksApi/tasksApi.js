@@ -2,7 +2,7 @@ import slugify from 'slug'
 import { Router } from 'express'
 import generateUuid from 'uuid/v4'
 import { setInterval } from 'timers'
-import { Tasks } from 'server/data/models'
+import { Tasks, Logs } from 'server/data/models'
 import handleTasks from 'server/bot/handleTasks'
 import { mustLogin } from 'server/services/permissions'
 import { fetchPricesAndSave, fetchBalance, fetchOpenOrders } from 'server/bot/binanceApi'
@@ -29,26 +29,26 @@ order example:
 */
 
 if (process.env.NODE_ENV != 'test') {
-  setInterval(async () => {
-    try {
-      console.log('interval is running')
-      // fetch data
-      // await fetchPricesAndSave()
-      // await fetchBalance()
-      global.orders = await fetchOpenOrders()
-      // console.log('global.orders: ', global.orders);
-      // console.log('prices: ', prices);
-      // const accountOrders =
-      // const accountBalance =
-      // check if there are active tasks
-      const activeTasks = await Tasks.findAll({where: {isDone: false}})
-      console.log('activeTasks: ', activeTasks && activeTasks.length);
-      // handle tasks if there are
-      if (activeTasks) handleTasks(activeTasks)
-    } catch (error) {
-      throw error
-    }
-  }, interval);
+  // setInterval(async () => {
+  //   try {
+  //     console.log('interval is running')
+  //     // fetch data
+  //     // await fetchPricesAndSave()
+  //     // await fetchBalance()
+  //     global.orders = await fetchOpenOrders()
+  //     // console.log('global.orders: ', global.orders);
+  //     // console.log('prices: ', prices);
+  //     // const accountOrders =
+  //     // const accountBalance =
+  //     // check if there are active tasks
+  //     const activeTasks = await Tasks.findAll({where: {isDone: false}})
+  //     console.log('activeTasks: ', activeTasks && activeTasks.length);
+  //     // handle tasks if there are
+  //     if (activeTasks) handleTasks(activeTasks)
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }, interval);
 }
 
 export default Router()
@@ -61,23 +61,25 @@ export default Router()
             offset = page ? limit * (page -1) : 0,
             totalPages = Math.ceil(totalTaskss / limit),
             tasks = await Tasks.findAll({limit, offset})
-      res.json({ tasks, totalPages })
+      res.json({ values: tasks, totalPages, currentPage: page })
+
     }
     catch (error) {
-      console.log(error);
       res.status(500).end(error)
     }
   })
 
   // get single task
-  .get('/task/:slug', async ({params}, res) => {
+  .get('/task/:id', async ({params}, res) => {
     try {
-      const task =  await Tasks.findOne({
-                          where: {slug: params.slug}
-                        })
-      res.json(task)
+      const task = await Tasks.findById(params.id, {raw: true})
+      const logs = await Logs.findAll({
+        limit: 10,
+        raw: true,
+        where: {TaskId: params.id},
+      })
+      res.json({logs: {values: logs}, ...task})
     } catch (error) {
-      console.log(error)
       res.status(500).end(error)
     }
   })
@@ -93,7 +95,6 @@ export default Router()
       else res.json(await task.update(body))
 
     } catch (error) {
-      console.log(error)
       res.status(500).end(error)
     }
   })
@@ -102,15 +103,9 @@ export default Router()
   .post('/', mustLogin, async ({user, body}, res) => {
     try {
       const UserId = user.id
-      const slug = slugify(body.name)
-      const task =  await Tasks.create({
-                          ...body,
-                          UserId,
-                          slug,
-                        })
+      const task =  await Tasks.create({...body, UserId})
       res.json(task)
     } catch (error) {
-      console.log(error)
       res.status(500).end(error)
     }
   })

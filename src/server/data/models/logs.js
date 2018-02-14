@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     TaskId: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     UserId: {
       allowNull: false,

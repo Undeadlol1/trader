@@ -16,6 +16,7 @@ import {
   fetchThreads,
 } from 'browser/redux/forum/ForumActions'
 import {
+  fetchTask,
   fetchTasks,
 } from 'browser/redux/task/TaskActions'
 /**
@@ -39,14 +40,16 @@ const routesConfig = {
     component: IndexPage,
     // fetch data
     onEnter({params}, replace, done) {
-      // check if fetching is needed
-      const fetchedTasks = store.getState().task.getIn(['tasks', 'values'])
-      if (fetchedTasks.size) return done()
-      else {
-        store
-        .dispatch(fetchTasks())
-        .then(() => done())
-      }
+      // fetch data every 10 seconds
+      const interval = 1000 * 10
+      setInterval(
+        () => store.dispatch(fetchTasks()),
+        interval
+      )
+      // and fetch once immediately
+      store
+      .dispatch(fetchTasks())
+      .then(() => done())
     }
   },
   childRoutes: [
@@ -117,7 +120,23 @@ const routesConfig = {
     }
   }
 },
-// ⚠️ Hook for cli! Do not remove 💀
+{
+  path: 'tasks/(:id)',
+  component: require('browser/pages/TaskPage').default,
+  onEnter({params}, replace, done) {
+      // fetch data every 10 seconds
+      const interval = 1000 * 10
+      setInterval(
+        () => store.dispatch(fetchTask(params.id)),
+        interval
+      )
+      // and fetch once immediately
+      store
+      .dispatch(fetchTask(params.id))
+      .then(() => done())
+  }
+},
+  // ⚠️ Hook for cli! Do not remove 💀,
     // 404 page must go after everything else
     { path: '*', component: NotFound },
   ]

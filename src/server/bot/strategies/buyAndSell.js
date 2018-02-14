@@ -25,7 +25,7 @@ export default async function(task) {
         if (!hasEnoughCurrency && (task.buyAt >= price)) return {
             isBuy: true,
             isBought: task.isTest
-         }
+        }
         else if (hasEnoughCurrency && (task.sellAt <= price)) return {
             isSell: true,
             isDone: true,
