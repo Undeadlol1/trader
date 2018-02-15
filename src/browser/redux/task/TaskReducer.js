@@ -37,7 +37,6 @@ export const initialState = fromJS({
 							loading: false,
 							finishedLoading: true,
 							dialogIsOpen: false,
-							contentNotFound: false,
 							// TODO do i need this?
 							searchIsActive: false,
 							...taskStructure
