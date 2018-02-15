@@ -13,7 +13,7 @@ module.exports = {
   "development": {
     "username": "root",
     "password": null,
-    "database": "boilerplat_dev",
+    "database": "trader_dev",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false
@@ -21,7 +21,7 @@ module.exports = {
   "test": {
     "username": "root",
     "password": null,
-    "database": "boilerplat_test",
+    "database": "trader_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false

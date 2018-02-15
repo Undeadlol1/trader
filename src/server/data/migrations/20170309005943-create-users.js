@@ -16,11 +16,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      role: {
-        allowNull: false,
-        defaultValue: 'user',
-        type: Sequelize.STRING,
-      },
       username: {
         type: Sequelize.STRING,
         allowNull: false
