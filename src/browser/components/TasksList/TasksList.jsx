@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
+import { injectIntl } from 'react-intl'
 import React, { Component } from 'react'
 import { Row, Col } from 'react-styled-flexboxgrid'
 import browserHistory from 'react-router/lib/browserHistory'
@@ -14,8 +15,9 @@ import {
 	TableHeader,
 	TableRowColumn,
 	TableHeaderColumn,
-  } from 'material-ui/Table'
+} from 'material-ui/Table'
 
+@injectIntl
 class TasksList extends Component {
 	changeRoute = (index) => {
 		const taskId = this.props.tasks.toJS().values[index].id
@@ -45,8 +47,10 @@ class TasksList extends Component {
 											props.tasks.get('values').map(task => {
 												const isTest = task.get('isTest') ? 'yes' : 'no'
 												const isDone = task.get('isDone') ? 'yes' : 'no'
+												const date = props.intl.formatDate(task.get('createdAt'))
+												const time = props.intl.formatTime(task.get('createdAt'))
 												return  <TableRow key={task.get('id')}>
-															<TableRowColumn>{task.get('createdAt')}</TableRowColumn>
+															<TableRowColumn>{`${time} ${date}`}</TableRowColumn>
 															<TableRowColumn>{task.get('symbol')}</TableRowColumn>
 															<TableRowColumn>{task.get('buyAt')}</TableRowColumn>
 															<TableRowColumn>{task.get('sellAt')}</TableRowColumn>
