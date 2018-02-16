@@ -29,26 +29,22 @@ order example:
 */
 
 if (process.env.NODE_ENV != 'test') {
-  // setInterval(async () => {
-  //   try {
-  //     console.log('interval is running')
-  //     // fetch data
-  //     // await fetchPricesAndSave()
-  //     // await fetchBalance()
-  //     global.orders = await fetchOpenOrders()
-  //     // console.log('global.orders: ', global.orders);
-  //     // console.log('prices: ', prices);
-  //     // const accountOrders =
-  //     // const accountBalance =
-  //     // check if there are active tasks
-  //     const activeTasks = await Tasks.findAll({where: {isDone: false}})
-  //     console.log('activeTasks: ', activeTasks && activeTasks.length);
-  //     // handle tasks if there are
-  //     if (activeTasks) handleTasks(activeTasks)
-  //   } catch (error) {
-  //     throw error
-  //   }
-  // }, interval);
+  setInterval(async () => {
+    try {
+      console.log('interval is running')
+      // fetch data
+      await fetchPricesAndSave()
+      // await fetchBalance()
+      // TODO: i disabled this temporary
+      // global.orders = await fetchOpenOrders()
+      // check if there are active tasks
+      const activeTasks = await Tasks.findAll({where: {isDone: false}})
+      // handle tasks if there are
+      if (activeTasks) handleTasks(activeTasks)
+    } catch (error) {
+      throw error
+    }
+  }, interval);
 }
 
 export default Router()
