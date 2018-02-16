@@ -28,8 +28,8 @@ class TasksList extends Component {
 					<Col xs={12}>
 						<Paper zDepth={3}>
 							{
-								<Table onRowSelection={this.changeRoute}>
-									<TableHeader>
+								<Table onRowSelection={this.changeRoute} selectable={true} multiSelectable={false}>
+									<TableHeader displaySelectAll={false} adjustForCheckbox={false}>
 										<TableRow>
 											<TableHeaderColumn>Дата создания</TableHeaderColumn>
 											<TableHeaderColumn>Символ</TableHeaderColumn>
