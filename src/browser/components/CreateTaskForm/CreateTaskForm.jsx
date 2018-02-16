@@ -24,8 +24,8 @@ import {
 	TextField,
 	Switch,
 	SelectField,
-  } from 'redux-form-material-ui'
-
+} from 'redux-form-material-ui'
+import Paper from 'material-ui/Paper'
 
 const renderCheckbox = ({ input, label }) => (
 	<Checkbox label={label}
@@ -45,66 +45,68 @@ export class CreateTaskForm extends Component {
 		// console.log('Select: ', Select);
 	    return 	<Row className={classNames}>
 					<Col xs={12}>
-						<form onSubmit={handleSubmit(insertTask)}>
-							<Field
-								required
-								fullWidth
-								name="strategy"
-								hintText="Стратегия"
-								component={SelectField}
-								floatingLabelText="Стратегия"
-							>
-								<MenuItem value="buy_sell" primaryText="Купи + продай" />
-								<MenuItem value="simple_iteration" primaryText="Бесконечный купи+продай" />
-							</Field>
-							<Field
-								required
-								fullWidth
-								name="symbol"
-								hintText="Symbol"
-								component={TextField}
-								hidden={asyncValidating}
-								floatingLabelText="Symbol"
-							/>
-							<Field
-								step="any"
-								fullWidth
-								type="number"
-								name="toSpend"
-								hintText="toSpend"
-								component={TextField}
-								hidden={asyncValidating}
-								floatingLabelText="toSpend"
-							/>
-							<Field
-								step="any"
-								fullWidth
-								type="number"
-								name="buyAt"
-								hintText="buyAt"
-								component={TextField}
-								hidden={asyncValidating}
-								floatingLabelText="buyAt"
-							/>
-							<Field
-								step="any"
-								fullWidth
-								type="number"
-								name="sellAt"
-								hintText="sellAt"
-								component={TextField}
-								hidden={asyncValidating}
-								floatingLabelText="sellAt"
-							/>
-							<Field name="isTest" component={renderCheckbox} label="Тест?"/>
-							<center>
-								<RaisedButton
-									type="submit"
-									primary={true}
-									disabled={!props.valid}
-									label={translate('submit')} />
-							</center>
-						</form>
+						<Paper zDepth={3} className="CreateTaskForm__paper">
+							<form onSubmit={handleSubmit(insertTask)}>
+								<Field
+									required
+									fullWidth
+									name="strategy"
+									hintText="Стратегия"
+									component={SelectField}
+									floatingLabelText="Стратегия"
+								>
+									<MenuItem value="buy_sell" primaryText="Купи + продай" />
+									<MenuItem value="simple_iteration" primaryText="Бесконечный купи+продай" />
+								</Field>
+								<Field
+									required
+									fullWidth
+									name="symbol"
+									hintText="Symbol"
+									component={TextField}
+									hidden={asyncValidating}
+									floatingLabelText="Symbol"
+								/>
+								<Field
+									step="any"
+									fullWidth
+									type="number"
+									name="toSpend"
+									hintText="toSpend"
+									component={TextField}
+									hidden={asyncValidating}
+									floatingLabelText="toSpend"
+								/>
+								<Field
+									step="any"
+									fullWidth
+									type="number"
+									name="buyAt"
+									hintText="buyAt"
+									component={TextField}
+									hidden={asyncValidating}
+									floatingLabelText="buyAt"
+								/>
+								<Field
+									step="any"
+									fullWidth
+									type="number"
+									name="sellAt"
+									hintText="sellAt"
+									component={TextField}
+									hidden={asyncValidating}
+									floatingLabelText="sellAt"
+								/>
+								<Field name="isTest" component={renderCheckbox} label="Тест?"/>
+								<center>
+									<RaisedButton
+										type="submit"
+										primary={true}
+										disabled={!props.valid}
+										label={translate('submit')} />
+								</center>
+							</form>
+						</Paper>
 					</Col>
 				</Row>
 
