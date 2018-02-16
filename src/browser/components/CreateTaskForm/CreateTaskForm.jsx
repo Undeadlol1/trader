@@ -145,17 +145,13 @@ export default reduxForm({
 	}),
     (dispatch, ownProps) => ({
         insertTask(values) {
-			console.log('insertTask')
-			console.log('values.isTest: ', values.isTest);
-			console.log('values.strategy: ', values.strategy);
-			console.log('values: ', values);
-			// values.parentId = ownProps.parentId
-
 			// function insertSucces(forum) {
 			// 	ownProps.reset()
 			// 	// browserHistory.push('/forum/' + forum.slug);
 			// }
-            dispatch(insertTask({...values}))
+			dispatch(insertTask({...values}))
+			.then(() => ownProps.reset())
+
 		}
     })
 )(CreateTaskForm))

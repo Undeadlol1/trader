@@ -35,11 +35,12 @@ class TasksList extends Component {
 										<TableRow>
 											<TableHeaderColumn>Дата создания</TableHeaderColumn>
 											<TableHeaderColumn>Символ</TableHeaderColumn>
+											<TableHeaderColumn>Потрачено</TableHeaderColumn>
 											<TableHeaderColumn>Покупка</TableHeaderColumn>
 											<TableHeaderColumn>Продажа</TableHeaderColumn>
-											<TableHeaderColumn>Выгода</TableHeaderColumn>
 											<TableHeaderColumn>Тест</TableHeaderColumn>
 											<TableHeaderColumn>Закончено</TableHeaderColumn>
+											<TableHeaderColumn>Выгода</TableHeaderColumn>
 										</TableRow>
 									</TableHeader>
 									<TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
@@ -52,11 +53,12 @@ class TasksList extends Component {
 												return  <TableRow key={task.get('id')}>
 															<TableRowColumn>{`${time} ${date}`}</TableRowColumn>
 															<TableRowColumn>{task.get('symbol')}</TableRowColumn>
+															<TableRowColumn>{task.get('toSpend')}</TableRowColumn>
 															<TableRowColumn>{task.get('buyAt')}</TableRowColumn>
 															<TableRowColumn>{task.get('sellAt')}</TableRowColumn>
-															<TableRowColumn>{task.get('profit')}</TableRowColumn>
 															<TableRowColumn>{isTest}</TableRowColumn>
 															<TableRowColumn>{isDone}</TableRowColumn>
+															<TableRowColumn>{task.get('profit')}</TableRowColumn>
 														</TableRow>
 											})
 										}
