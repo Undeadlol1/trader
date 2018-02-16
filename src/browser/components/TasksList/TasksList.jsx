@@ -50,6 +50,7 @@ class TasksList extends Component {
 												const isDone = task.get('isDone') ? 'yes' : 'no'
 												const date = props.intl.formatDate(task.get('createdAt'))
 												const time = props.intl.formatTime(task.get('createdAt'))
+												console.log('tospend', task.get('toSpend'))
 												return  <TableRow key={task.get('id')}>
 															<TableRowColumn>{`${time} ${date}`}</TableRowColumn>
 															<TableRowColumn>{task.get('symbol')}</TableRowColumn>

@@ -7,6 +7,7 @@ const taskStructure =  {
 							symbol: '',
 							buyAt: '',
 							sellAt: '',
+							toSpend: '',
 							isBought: '',
 							isSold: '',
 							payload: '',

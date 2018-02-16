@@ -145,6 +145,7 @@ export default reduxForm({
 	}),
     (dispatch, ownProps) => ({
         insertTask(values) {
+			console.log('values: ', values);
 			// function insertSucces(forum) {
 			// 	ownProps.reset()
 			// 	// browserHistory.push('/forum/' + forum.slug);
