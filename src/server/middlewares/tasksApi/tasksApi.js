@@ -105,3 +105,20 @@ export default Router()
       res.status(500).end(error)
     }
   })
+
+  // delete task
+  .delete('/:id', mustLogin, async ({user, body, params}, res) => {
+    try {
+      const task = await Tasks.findById(params.id)
+      // document was not found
+      if (!task) return res.status(204).end()
+      // user must be documents owner to delete it
+      if (task && task.UserId == user.id) {
+        await task.destroy()
+        await res.status(200).end()
+      }
+      else res.boom.unauthorized('You must be the owner to delete this')
+    } catch (error) {
+      res.status(500).end(error)
+    }
+  })

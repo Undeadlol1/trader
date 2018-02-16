@@ -35,7 +35,7 @@ class TasksList extends Component {
 										<TableRow>
 											<TableHeaderColumn>Дата создания</TableHeaderColumn>
 											<TableHeaderColumn>Символ</TableHeaderColumn>
-											<TableHeaderColumn>Потрачено</TableHeaderColumn>
+											<TableHeaderColumn>Потратить</TableHeaderColumn>
 											<TableHeaderColumn>Покупка</TableHeaderColumn>
 											<TableHeaderColumn>Продажа</TableHeaderColumn>
 											<TableHeaderColumn>Тест</TableHeaderColumn>
