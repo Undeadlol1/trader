@@ -17,10 +17,8 @@ const   agent = request.agent(server),
         symbol = 'ETHBTC'
 
 export default describe('/tasks API', function() {
-
     // Kill supertest server in watch mode to avoid errors
     before(async () => server.close())
-
     // clean up
     after(async () => Tasks.destroy({where: {symbol}}))
 
