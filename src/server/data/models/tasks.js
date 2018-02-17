@@ -18,6 +18,9 @@ module.exports = function(sequelize, DataTypes) {
     sellAt: {
       type: DataTypes.STRING,
     },
+    toSpend: {
+      type: DataTypes.STRING,
+    },
     isBought: {
       type: DataTypes.STRING,
     },

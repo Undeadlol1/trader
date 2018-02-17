@@ -59,3 +59,15 @@ export const fetchTasks = (page=1) => (dispatch, getState) => {
 		.then(data => dispatch(actions.recieveTasks((data))))
 		.catch(err => console.error('fetchtask failed!', err))
 }
+
+/**
+ * delete a task
+ * @param {object} id task.id
+ */
+export const deleteTask = id => (dispatch, getState) => {
+	return fetch(tasksUrl + id, headersAndBody(undefined, 'DELETE'))
+		.then(checkStatus)
+		.then(function(response) {
+			return dispatch(actions.removeTask(id))
+		})
+}

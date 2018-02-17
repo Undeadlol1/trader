@@ -1,2 +1,11 @@
 .CreateTaskForm {
+    .CreateTaskForm__paper {
+        padding: 1rem !important;
+    }
+    // small devices
+	@media (max-width: 48rem) {
+        .CreateTaskForm__paper {
+            padding: 0rem !important;
+        }
+	}
 }

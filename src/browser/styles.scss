@@ -28,6 +28,7 @@
 @import "./components/WysiwygEditor/WysiwygEditor.scss";
 @import "./components/ThreadsList/ThreadsList.scss";
 @import "./pages/ThreadPage/ThreadPage.scss";
+@import "./components/CreateTaskForm/CreateTaskForm.scss";
 @import "./components/CreateThreadForm/CreateThreadForm.scss";
 @import "./components/PageLoading/PageLoading.scss";
 @import "./components/ForumsList/ForumsList.scss";
@@ -38,8 +39,8 @@
 @import "./components/SocialLike/SocialLike.scss";
 @import "./components/Feedback/Feedback.scss";
 @import "./components/CreateThreadFormOrButton/CreateThreadFormOrButton.scss";
-@import "./pages/TaskPage/TaskPage.scss"; 
-@import "./components/LogsList/LogsList.scss"; 
+@import "./pages/TaskPage/TaskPage.scss";
+@import "./components/LogsList/LogsList.scss";
 // ⚠️ Hook for cli! Do not remove 💀
 /*
     common styles

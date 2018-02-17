@@ -7,6 +7,7 @@ const taskStructure =  {
 							symbol: '',
 							buyAt: '',
 							sellAt: '',
+							toSpend: '',
 							isBought: '',
 							isSold: '',
 							payload: '',
@@ -89,12 +90,14 @@ export default (state = initialState, {type, payload}) => {
 				})
 		// remove task from tasks list
 		case 'REMOVE_TASK':
+			const newTasks = fromJS({
+				values: state
+						.get('tasks')
+						.get('values')
+						.filter(task => task.get('id') !== payload),
+			})
 			return state
-				.merge({
-					tasks: state
-							.get('tasks')
-							.filter(task => task.get('id') !== payload)
-				})
+				.merge({tasks: newTasks})
 		case 'RECIEVE_SEARCHED_VIDEOS':
 			return state.merge({
 				searchIsActive: false,
