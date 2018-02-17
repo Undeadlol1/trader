@@ -5,9 +5,9 @@ import simpleIteration from 'server/bot/strategies/simpleIteration'
 /**
  * go over tasks and handle them with proper strategies
  * @param {array} tasks
- * @returns {array} array of possible buy/sell orders
+ * @returns {[Promises]} array of possible buy/sell orders
  */
-export default async function(tasks) {
+export default async function handleTasks(tasks) {
     try {
         return await tasks.map(async task => {
             switch (task.strategy) {
@@ -28,6 +28,10 @@ export default async function(tasks) {
  * 1) decide if anything needs to be done
  * 2) update task if needed
  * 3) call buy/or sell function
+ * ! dont forget to use "await Promise.all()"
+ * ! await Promise.all(await handleTasks(tasks))
+ * @example
+ * const orders = await Promise.all(await handleTasks(tasks))
  * @param {array} orders
  */
 export async function handleOrders(orders) {

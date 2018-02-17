@@ -3,8 +3,8 @@ import { Router } from 'express'
 import generateUuid from 'uuid/v4'
 import { setInterval } from 'timers'
 import { Tasks, Logs } from 'server/data/models'
-import handleTasks from 'server/bot/handleTasks'
 import { mustLogin } from 'server/services/permissions'
+import { handleTasks, handleOrders } from 'server/bot/handleTasks'
 import { fetchPricesAndSave, fetchBalance, fetchOpenOrders } from 'server/bot/binanceApi'
 
 const limit = 12
@@ -39,8 +39,13 @@ if (process.env.NODE_ENV != 'test') {
       // global.orders = await fetchOpenOrders()
       // check if there are active tasks
       const activeTasks = await Tasks.findAll({where: {isDone: false}})
-      // handle tasks if there are
-      if (activeTasks) handleTasks(activeTasks)
+      // handle tasks if there are any
+      if (activeTasks) {
+        // 'handleTasks' returns orders
+        await handleOrders(
+          await Promise.all(await handleTasks(activeTasks))
+        )
+      }
     } catch (error) {
       throw error
     }
