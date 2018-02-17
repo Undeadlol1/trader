@@ -4,7 +4,7 @@ import generateUuid from 'uuid/v4'
 import { setInterval } from 'timers'
 import { Tasks, Logs } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
-import { handleTasks, handleOrders } from 'server/bot/handleTasks'
+import handleTasks, { handleOrders } from 'server/bot/handleTasks'
 import { fetchPricesAndSave, fetchBalance, fetchOpenOrders } from 'server/bot/binanceApi'
 
 const limit = 12
@@ -58,9 +58,9 @@ export default Router()
   .get('/:page?', async (req, res) => {
     try {
       const page = req.params.page,
-            totalTaskss = await Tasks.count(),
+            totalTasks = await Tasks.count(),
             offset = page ? limit * (page -1) : 0,
-            totalPages = Math.ceil(totalTaskss / limit),
+            totalPages = Math.ceil(totalTasks / limit),
             tasks = await Tasks.findAll({limit, offset})
       res.json({ values: tasks, totalPages, currentPage: page })
 
