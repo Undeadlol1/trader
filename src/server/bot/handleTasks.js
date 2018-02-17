@@ -24,11 +24,11 @@ export default async function(tasks) {
     }
 }
 /**
- * handleTasks returns array of orders
- * orders.forEach(order => {
- *  log(sometext)
- *  buyOrSell(order)
- * })
+ * go over orders and:
+ * 1) decide if anything needs to be done
+ * 2) update task if needed
+ * 3) call buy/or sell function
+ * @param {array} orders
  */
 export async function handleOrders(orders) {
     try {
@@ -51,7 +51,7 @@ export async function handleOrders(orders) {
             // TODO: tests
             const where = {where: {id: order.TaskId}}
             if (order.isTest) {
-                await Tasks.update(order, where) // TODO: this migh be a problem someday
+                await Tasks.update(order, where) // TODO: this might be a problem someday
             }
             // if ".isDone" is set update Task
             if (order.isDone) {
