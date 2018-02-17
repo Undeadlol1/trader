@@ -14,7 +14,6 @@ class TaskPage extends PureComponent {
     render() {
 		const { props } = this
 		const task = props.task && props.task.toJS()
-		console.log('task: ', task);
 		return 	<PageWrapper
 					className='TaskPage'
 					loading={props.loading}
@@ -27,6 +26,7 @@ class TaskPage extends PureComponent {
 							<center>{task.sellAt}</center>
 							<center>{task.toSpend}</center>
 							<center>{task.isTest}</center>
+							<center>{task.isDone}</center>
 							<RaisedButton
 								primary={true}
 								label="Удалить"

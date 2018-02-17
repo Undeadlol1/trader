@@ -16,7 +16,7 @@ describe('<TasksList />', () => {
       values: []
     })
   }
-  const wrapper = shallow(<TasksList {...props} />)
+  // const wrapper = shallow(<TasksList {...props} />)
 
   // it('has <Row>', () => {
   //   const el = wrapper.find('Styled(Row)')
