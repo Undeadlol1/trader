@@ -1,7 +1,7 @@
 import sinon from 'sinon'
+import chai, { expect, assert } from 'chai'
 import simpleIteration from './simpleIteration'
 import { Prices, Balances } from 'server/data/models'
-import chai, { expect, assert } from 'chai'
 chai.should()
 
 const asset = 'ETH'
@@ -16,12 +16,12 @@ describe('simpleIteration should return', () => {
 
     it('BUY order if price is low enough and balance is low',
         async () => {
-            await Prices.create({symbol, price: '0.89'})
+            const price = await Prices.create({symbol, price: '0.89'}).then(price => price.get('price'))
             // balance is less then the one which specified in task.toSpend
-            await Balances.create({asset, free: '0.0' })
+            const balance = await Balances.create({asset, free: '0.0'})
             // await Balances.create({asset, })
             const task = { symbol, buyAt: '0.9', toSpend: '0.1' }
-            const response = await simpleIteration(task)
+            const response = await simpleIteration(task, price, balance)
             expect(response).to.be.a('object')
             expect(response).to.have.property('isBuy', true)
         }
@@ -36,32 +36,24 @@ describe('simpleIteration should return', () => {
             expect(response).to.be.a('object')
             expect(response).to.have.property('isSell', true)
             // "toSpend" must be increased after profit is gained
-            // notice we use numbers here instead of strings
-            // FIXME: Math translation: profit plus
-            // FIXME: add comments
-            // FIXME: decimals problem in buyAndSell
+            // notice we use numbers here instead of strings.
+            // Math explanation:
             // (sellAt - buyAt) * toSpend
             // (1.0 - 0.9) * 0.1
             const profit = 0.01
-            // FIXME: add comments
-            // FIXME: decimals problem in buyAndSell
             // (old toSpend - fees) + profit
             // (0.1 - 0.1%) + 0.01
-            const newSpendAmount = 0.109 // TODO: it's supposed to be 0.109
-            console.log('newSpendAmount: ', newSpendAmount);
-            console.log('response.toSpend: ', response.toSpend);
+            const newSpendAmount = 0.109
             // FIXME: add this to buyAndSell
             expect(response)
                 .to.have.property('toSpend', newSpendAmount)
                 .to.be.a('number')
             expect(response)
-                // FIXME: profit percent
                 .to.have.property('profit', 0.01)
                 .to.be.a('number')
         }
     )
-    // FIXME: add comments
-    // FIXME: afterSpend and afterProfit fees calculation
+
     it('properly on multiple iterations',
         async () => {
             const asset = 'CND'
@@ -78,7 +70,6 @@ describe('simpleIteration should return', () => {
             const orders = await Promise.all(tasks.map(task => {
                 return simpleIteration({symbol, ...task})
             }))
-            // console.log('orders: ', orders);
             orders.forEach((order, index) => {
                 const task = tasks[index]
                 expect(order)

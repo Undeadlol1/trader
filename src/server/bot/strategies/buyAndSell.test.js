@@ -1,7 +1,7 @@
 import sinon from 'sinon'
 import buyAndSell from './buyAndSell'
-import { Prices, Balances } from 'server/data/models'
 import chai, { expect, assert } from 'chai'
+import { Prices, Balances } from 'server/data/models'
 chai.should()
 
 const asset = 'ETH'

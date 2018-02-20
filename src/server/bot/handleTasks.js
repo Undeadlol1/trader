@@ -29,7 +29,6 @@ export default async function handleTasks(tasks) {
  * 2) update task if needed
  * 3) call buy/or sell function
  * ! dont forget to use "await Promise.all()"
- * ! await Promise.all(await handleTasks(tasks))
  * @example
  * const orders = await Promise.all(await handleTasks(tasks))
  * @param {array} orders

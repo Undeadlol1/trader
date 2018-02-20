@@ -1,18 +1,17 @@
-import { Prices, Balances } from 'server/data/models'
-import { pricesAreRecent } from '../checkers'
 import selectn from 'selectn'
-
+import { pricesAreRecent } from '../checkers'
+import { Prices, Balances } from 'server/data/models'
 /**
  * simple strategy which buys and sells currency at given price
  * @param {object} task
  */
 export default async function(task) {
     /**
-     * logic:
-     * check price and account balances
-     * if we have appropriate amount of currency and price have reached given point then sell currency
-     * if we don't have currency and price is lower than given point then buy currency
-     * else do nothing
+     * Logic:
+     * Check price and account balances.
+     * If we have appropriate amount of currency and price have reached given point then sell currency.
+     * If we don't have currency and price is lower than given point then buy currency.
+     * Else do nothing.
      */
     try {
         const price = selectn('price', await Prices.getLatestPrice(task.symbol))
