@@ -1,14 +1,9 @@
 // dependencies
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import React, { PureComponent } from 'react'
-import { Grid, Row } from 'react-styled-flexboxgrid'
+import React, { Component } from 'react'
 // project files
-import store from 'browser/redux/store'
-import Wysiwyg from 'browser/components/Wysiwyg'
 import { t } from 'browser/containers/Translator'
-import MoodsFind from 'browser/components/MoodsFind'
-import MoodsList from 'browser/components/MoodsList'
 import ForumsList from 'browser/components/ForumsList'
 import PageWrapper from 'browser/components/PageWrapper'
 import WelcomeCard from 'browser/components/WelcomeCard'
@@ -16,7 +11,7 @@ import TasksList from 'browser/components/TasksList'
 import MoodsInsert from 'browser/components/MoodsInsert'
 import CreateTaskForm from 'browser/components/CreateTaskForm'
 
-class IndexPage extends PureComponent {
+class IndexPage extends Component {
     render() {
 		const { props } = this
 		return 	<PageWrapper
@@ -29,22 +24,11 @@ class IndexPage extends PureComponent {
     }
 }
 
-IndexPage.propTypes = {
-	moods: PropTypes.object,
-	totalPages: PropTypes.number,
-	currentPage: PropTypes.number,
-	loading: PropTypes.bool.isRequired,
-	location: PropTypes.object.isRequired,
-}
+IndexPage.propTypes = {}
 
 export { IndexPage }
 
 export default
 connect(
-	({mood}) => ({
-		moods: mood.get('moods'),
-		loading: mood.get('loading'),
-		totalPages: mood.get('totalPages'),
-		currentPage: mood.get('currentPage'),
-	}),
+	(state, ownProps) => ({...ownProps})
 )(IndexPage)
