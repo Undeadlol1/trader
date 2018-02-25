@@ -16,14 +16,19 @@ describe('simpleIteration should return', () => {
 
     it('BUY order if price is low enough and balance is low',
         async () => {
+            // create "price" document to pass to
+            // NOTE: we don't really need to create it, we only need to pass it down
             const price = await Prices.create({symbol, price: '0.89'}).then(price => price.get('price'))
             // balance is less then the one which specified in task.toSpend
             const balance = await Balances.create({asset, free: '0.0'})
             // await Balances.create({asset, })
             const task = { symbol, buyAt: '0.9', toSpend: '0.1' }
+            // simpleIteration must return object which tells programm what to do next
             const response = await simpleIteration(task, price, balance)
-            expect(response).to.be.a('object')
-            expect(response).to.have.property('isBuy', true)
+            // response must tell programm to make "buy" operation
+            expect(response)
+                .to.be.a('object')
+                .to.have.property('isBuy', true)
         }
     )
 
@@ -35,11 +40,13 @@ describe('simpleIteration should return', () => {
             const response = await simpleIteration(task)
             expect(response).to.be.a('object')
             expect(response).to.have.property('isSell', true)
-            // "toSpend" must be increased after profit is gained
-            // notice we use numbers here instead of strings.
-            // Math explanation:
-            // (sellAt - buyAt) * toSpend
-            // (1.0 - 0.9) * 0.1
+            /*
+                "toSpend" must be increased after profit is gained.
+                Notice we use numbers here instead of strings.
+                Math explanation:
+                (sellAt - buyAt) * toSpend
+                (1.0 - 0.9) * 0.1
+             */
             const profit = 0.01
             // (old toSpend - fees) + profit
             // (0.1 - 0.1%) + 0.01
@@ -82,8 +89,6 @@ describe('simpleIteration should return', () => {
             // TODO: order.isBought == undefined may create problems
         }
     )
-
-    // TODO: multiple iteration tests
 
     describe('undefined if', () => {
         it('there is enough currency but price is not high enough',
