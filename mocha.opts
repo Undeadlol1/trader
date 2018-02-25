@@ -1,4 +1,4 @@
-  --ui bdd
+  --ui tdd
   --no-exit
   --watch
   --no-exit

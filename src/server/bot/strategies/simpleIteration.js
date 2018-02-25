@@ -66,7 +66,10 @@ export default async function(task) {
             }
         }
     }
-    catch (error) {throw error}
+    catch (error) {
+        console.log(error)
+        throw error
+    }
 }
 /**
  * what could be done:
