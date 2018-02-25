@@ -1,8 +1,10 @@
 import sinon from 'sinon'
+import generateUuid from 'uuid/v4'
 import chai, { expect, assert } from 'chai'
 import simpleIteration from './simpleIteration'
-import { Prices, Balances } from 'server/data/models'
+import { Tasks, Logs, Prices, Balances } from 'server/data/models'
 chai.should()
+chai.use(require('chai-properties'))
 
 const asset = 'ETH'
 const symbol = asset + 'BTC'
@@ -22,13 +24,30 @@ describe('simpleIteration should return', () => {
             // balance is less then the one which specified in task.toSpend
             const balance = await Balances.create({asset, free: '0.0'})
             // await Balances.create({asset, })
-            const task = { symbol, buyAt: '0.9', toSpend: '0.1' }
+            const TaskId = generateUuid()
+            const task = await Tasks.create({
+                symbol,
+                id: TaskId,
+                buyAt: '0.9',
+                sellAt: '1.0',
+                toSpend: '0.1',
+                UserId: 23423434,
+                strategy: 'simple_iteration',
+            })
             // simpleIteration must return object which tells programm what to do next
             const response = await simpleIteration(task, price, balance)
             // response must tell programm to make "buy" operation
             expect(response)
                 .to.be.a('object')
                 .to.have.property('isBuy', true)
+
+            // must create Log document with information about order
+            const log = await Logs.findOne({where: {TaskId}})
+            // FIXME: add proper message
+            expect(log).to.have.properties({TaskId, message: 'did buy'})
+            // must update Task's isBought propery
+            const updatedTask = await Tasks.findById(TaskId)
+            expect(updatedTask).to.have.property('isBought', '1')
         }
     )
 
@@ -36,7 +55,8 @@ describe('simpleIteration should return', () => {
         async () => {
             await Prices.create({symbol, price: '1.1'})
             await Balances.create({asset, free: '3.0' })
-            const task = { symbol, sellAt: '1.0', toSpend: '0.1', buyAt: '0.9' }
+            const task = await Tasks.findOne()
+            const TaskId = task.id
             const response = await simpleIteration(task)
             expect(response).to.be.a('object')
             expect(response).to.have.property('isSell', true)
@@ -58,6 +78,16 @@ describe('simpleIteration should return', () => {
             expect(response)
                 .to.have.property('profit', 0.01)
                 .to.be.a('number')
+            // must create log document with info about selling
+            const log = await Logs.findOne({where: {TaskId: task.id}})
+            expect(log).to.have.properties({TaskId, message: 'did sell'})
+            // must update task with information about profits
+            const updatedTask = await Tasks.findById(TaskId)
+            expect(updatedTask).to.have.properties({
+                profit: '0.01',
+                isBought: '0', // FIXME: comments
+                toSpend: String(newSpendAmount),
+            })
         }
     )
 

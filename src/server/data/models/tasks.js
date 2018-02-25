@@ -1,5 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
+  var Logs = require('./index').Logs
   var Tasks = sequelize.define('Tasks', {
     id: {
       unique: true,
@@ -60,6 +61,15 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: {allowNull: false}
         });
       },
+    },
+    instanceMethods: {
+      addMessage(payload) {
+        return Logs.create({
+          TaskId: this.id,
+          message: payload,
+          UserId: this.UserId,
+        })
+      }
     }
   });
   return Tasks;
