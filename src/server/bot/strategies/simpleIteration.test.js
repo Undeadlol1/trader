@@ -95,50 +95,70 @@ describe('simpleIteration should do', () => {
      * and verify results
      * Do not bother to verify everything in between
      */
-    // it('properly on multiple iterations',
-    //     async () => {
-    //         const asset = 'CND'
-    //         const symbol = asset + 'BTC'
-    //         // FIXME: comments
-    //         await Tasks.create({
-    //             symbol,
-    //             sellAt: '1',
-    //             buyAt: '0.9',
-    //             UserId: 123456,
-    //             strategy: 'simple_iteration',
-    //         })
-    //         const iterations = [
-    //             // price is higher then 'sellAt' but there are no funds yet
-    //             // program must do nothing
-    //             {price: '1.1', toSpend: '1', afterProfit: 0.1, afterSpend: 1.09},
-    //             {price: '1.1', toSpend: '1', afterProfit: 0.1, afterSpend: 1.09},
-    //             // price is between buy and sell tresholds, programm must do nothing
-    //             {price: '1', toSpend: '1', afterProfit: 0.1, afterSpend: 1.09},
-    //             // price is higher when 'sellAt'
-    //             {price: '1.1', toSpend: '1.09', afterProfit: 0.109, afterSpend: 1.1881},
-    //             {price: '1.1', toSpend: '1.09', afterProfit: 0.109, afterSpend: 1.1881},
-    //             {price: '1.1', toSpend: '1.1881', afterProfit: 0.11881, afterSpend: 1.295029},
-    //             {price: '1.1', toSpend: '1.295029', afterProfit: 0.1295029, afterSpend: 1.41158161},
-    //         ]
-    //         // await Prices.create({symbol, price: '1.1'})
-    //         // await Balances.create({asset, free: '3.0'})
-    //         // // using multiple arrays for easier error handling
-    //         // // FIXME: this is wrong
-    //         // const orders = await Promise.all(tasks.map(task => {
-    //         //     return simpleIteration({symbol, ...task})
-    //         // }))
-    //         // orders.forEach((order, index) => {
-    //         //     const task = tasks[index]
-    //         //     expect(order)
-    //         //         .to.have.property('toSpend', task.afterSpend)
-    //         //         .to.be.a('number')
-    //         //     expect(order)
-    //         //         .to.have.property('profit', task.afterProfit)
-    //         //         .to.be.a('number')
-    //         // })
-    //         // // TODO: order.isBought == undefined may create problems
-    //     }
-    // )
+    it('properly on multiple iterations',
+        async () => {
+            const asset = 'CND'
+            const symbol = asset + 'BTC'
+            // FIXME: comments
+            const task = await Tasks.create({
+                symbol,
+                sellAt: '1',
+                buyAt: '0.9',
+                toSpend: '1',
+                UserId: 123456,
+                strategy: 'simple_iteration',
+            })
+            const iterations = [
+                // Price is higher then 'sellAt' but there are no funds yet. Must do nothing.
+                {price: '1.1', toSpend: '1', afterProfit: null, afterSpend: null},
+                // Price is low enough. Must buy.
+                {price: '0.9', toSpend: '1', afterProfit: null, afterSpend: null},
+                // Price is between prie and sell thresholds. Must do nothing
+                {price: '0.95', toSpend: '1', afterProfit: null, afterSpend: null},
+                // Price is higher and balance is full. Must sell.
+                {price: '1', toSpend: '1', afterProfit: 0.1, afterSpend: 1.09},
+                // Price is even higher. Must do nothing because balance is empty now
+                {price: '1.1', toSpend: '1.09', afterProfit: null, afterSpend: null},
+                // Price is low. Must buy.
+                {price: '0.9', toSpend: '1.09', afterProfit: null, afterSpend: null},
+                // Price is high enough again. Must buy.
+                {price: '1.1', toSpend: '1.09', afterProfit: 0.109, afterSpend: 1.1881},
+            ]
+
+            Promise.all(
+                iterations.map(async i => {
+                    // Destroy previous prices and logs because 'createdAt' is
+                    // always the same and impossible to get latest documents properly.
+                    await Logs.destroy({where: {TaskId: task.id}})
+                    await Prices.destroy({where: {symbol}})
+                    await Prices.create({symbol, price: i.price})
+                    // await Balances.create({asset, free: '3.0'})
+                    await simpleIteration(task)
+                    console.log('task: ', task);
+                    const log = await TaskId.getLatestLog()
+                    console.log('log: ', log);
+                })
+            )
+
+            // await Prices.create({symbol, price: '1.1'})
+            // await Balances.create({asset, free: '3.0'})
+            // // using multiple arrays for easier error handling
+            // // FIXME: this is wrong
+            // const orders = await Promise.all(tasks.map(task => {
+            //     return simpleIteration({symbol, ...task})
+            // }))
+            // orders.forEach((order, index) => {
+            //     const task = tasks[index]
+            //     expect(order)
+            //         .to.have.property('toSpend', task.afterSpend)
+            //         .to.be.a('number')
+            //     expect(order)
+            //         .to.have.property('profit', task.afterProfit)
+            //         .to.be.a('number')
+            // })
+            // // TODO: order.isBought == undefined may create problems
+        }
+    )
 
     describe('nothing if', () => {
         const anotherTaskId = generateUuid()

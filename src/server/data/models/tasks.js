@@ -69,6 +69,9 @@ module.exports = function(sequelize, DataTypes) {
           message: payload,
           UserId: this.UserId,
         })
+      },
+      getLatestLog() {
+        return Logs.getLatest(this.id)
       }
     }
   });
