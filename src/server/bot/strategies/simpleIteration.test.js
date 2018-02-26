@@ -103,6 +103,7 @@ describe('simpleIteration should do', () => {
             const task = await Tasks.create({
                 symbol,
                 sellAt: '1',
+                profit: '0',
                 buyAt: '0.9',
                 toSpend: '1',
                 UserId: 123456,
@@ -110,22 +111,22 @@ describe('simpleIteration should do', () => {
             })
             const iterations = [
                 // Price is higher then 'sellAt' but there are no funds yet. Must do nothing.
-                {price: '1.1', toSpend: '1', afterProfit: null, afterSpend: null},
+                {price: '1.1', toSpend: '1', profit: '0'},
                 // Price is low enough. Must buy.
-                {price: '0.9', toSpend: '1', afterProfit: null, afterSpend: null},
+                {price: '0.9', toSpend: '1', profit: '0'},
                 // Price is between prie and sell thresholds. Must do nothing
-                {price: '0.95', toSpend: '1', afterProfit: null, afterSpend: null},
+                {price: '0.95', toSpend: '1', profit: '0'},
                 // Price is higher and balance is full. Must sell.
-                {price: '1', toSpend: '1', afterProfit: 0.1, afterSpend: 1.09},
+                {price: '1', toSpend: '1.09', profit: '0.1'},
                 // Price is even higher. Must do nothing because balance is empty now
-                {price: '1.1', toSpend: '1.09', afterProfit: null, afterSpend: null},
+                {price: '1.1', toSpend: '1.09', profit: '0.1'},
                 // Price is low. Must buy.
-                {price: '0.9', toSpend: '1.09', afterProfit: null, afterSpend: null},
+                {price: '0.9', toSpend: '1.09', profit: '0.1'},
                 // Price is high enough again. Must buy.
-                {price: '1.1', toSpend: '1.09', afterProfit: 0.109, afterSpend: 1.1881},
+                {price: '1.1', toSpend: '1.1881', profit: '0.209'},
             ]
 
-            Promise.all(
+            await Promise.all(
                 iterations.map(async i => {
                     // Destroy previous prices and logs because 'createdAt' is
                     // always the same and impossible to get latest documents properly.
@@ -133,10 +134,14 @@ describe('simpleIteration should do', () => {
                     await Prices.destroy({where: {symbol}})
                     await Prices.create({symbol, price: i.price})
                     // await Balances.create({asset, free: '3.0'})
+                    // console.log('task: ', task);
                     await simpleIteration(task)
-                    console.log('task: ', task);
-                    const log = await TaskId.getLatestLog()
-                    console.log('log: ', log);
+                    const updatedTask = await task.reload()
+                    const log = await task.getLatestLog()
+                    expect(updatedTask).to.have.property("toSpend", i.toSpend)
+                    expect(updatedTask).to.have.property('profit', i.profit)
+                    // TODO: how do i test logs?
+                    // console.log('log: ', log);
                 })
             )
 

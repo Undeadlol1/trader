@@ -29,20 +29,20 @@ export default async function(task) {
                 sellAt    = new Decimal(task.sellAt),
                 toSpend   = new Decimal(task.toSpend)
         // Gather data
-        const   balance = selectn('free', await Balances.getLatest(task.symbol.slice(0, -3))), // symbol second pair length could be a problem
+        const   balance = selectn('free', await Balances.getLatest(task.symbol.slice(0, -3))) || 0, // symbol second pair length could be a problem
                 price   = selectn('price', await Prices.getLatestPrice(task.symbol))
         // Make calculations
         const   profit    = toSpend.times(sellAt.minus(buyAt)),
                 fee       = toSpend.mul(new Decimal(0.01)),
                 hasEnoughCurrency = Decimal(balance).greaterThanOrEqualTo(Decimal(toSpend).times(price))
-        // console.log('price: ', price.toString());
-        // console.log('buyAt: ', buyAt.toString());
-        // console.log('balance', balance.toString());
-        // console.log('sellAt: ', sellAt.toString());
-        // console.log('toSpend: ', toSpend.toString());
-        // console.log('profit: ', profit.toString());
-        // console.log('fee: ', fee.toString());
-        // console.log('hasEnoughCurrency: ', hasEnoughCurrency);
+        console.log('price: ', price.toString());
+        console.log('buyAt: ', buyAt.toString());
+        console.log('balance', balance.toString());
+        console.log('sellAt: ', sellAt.toString());
+        console.log('toSpend: ', toSpend.toString());
+        console.log('profit: ', profit.toString());
+        console.log('fee: ', fee.toString());
+        console.log('hasEnoughCurrency: ', hasEnoughCurrency);
         // check if prices are recent enough
         if (await !pricesAreRecent(task.symbol)) return
         // if user has enough currency and price is high enough he should sell it
