@@ -2,6 +2,38 @@
 # yarn lockfile v1
 
 
+"@babel/polyfill@^7.0.0-beta.39":
+  version "7.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.0.0-beta.40.tgz#90f447aa04ab54c317dcf0ccb8cb11ad4228fea0"
+  dependencies:
+    core-js "^2.5.3"
+    regenerator-runtime "^0.11.1"
+
+"@lvchengbin/event-emitter@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@lvchengbin/event-emitter/-/event-emitter-0.0.9.tgz#ef2cdd032d9a429e2e5eaa30d5f2ff599eb6de30"
+  dependencies:
+    "@lvchengbin/is" "0.0.9"
+
+"@lvchengbin/is@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@lvchengbin/is/-/is-0.0.9.tgz#d11898002a02efd79bea2fb09e4236357789ebab"
+
+"@lvchengbin/promise@^1.1.0":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@lvchengbin/promise/-/promise-1.1.3.tgz#af9d944f3ae619beb5f09f5afcb9e02e7baeb0ca"
+  dependencies:
+    "@lvchengbin/is" "0.0.9"
+
+"@lvchengbin/sequence@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@lvchengbin/sequence/-/sequence-1.0.0.tgz#2919aebbcfd7f2918007fc6ec6cf426e45f82065"
+  dependencies:
+    "@babel/polyfill" "^7.0.0-beta.39"
+    "@lvchengbin/event-emitter" "0.0.9"
+    "@lvchengbin/is" "0.0.9"
+    "@lvchengbin/promise" "^1.1.0"
+
 "@types/geojson@^1.0.0":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.6.tgz#3e02972728c69248c2af08d60a48cbb8680fffdf"
@@ -167,6 +199,10 @@ ansi-wrap@0.1.0:
 ansicolors@~0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ansicolors/-/ansicolors-0.2.1.tgz#be089599097b74a5c9c4a84a0cdbcdb62bd87aef"
+
+any-promise@^1.1.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
 
 anymatch@^1.3.0:
   version "1.3.2"
@@ -342,6 +378,10 @@ async-listener@^0.6.0:
     semver "^5.3.0"
     shimmer "^1.1.0"
 
+async-promises@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/async-promises/-/async-promises-0.2.1.tgz#f61c85ca2bdfd328fa110d0e05a42fa55291762a"
+
 async@0.2.x, async@~0.2.6:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
@@ -358,7 +398,7 @@ async@^0.9.0, async@~0.9.0:
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/async/-/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
 
-async@^2.1.2, async@^2.1.5, async@^2.4.1:
+async@^2.1.2, async@^2.1.5, async@^2.4.1, async@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   dependencies:
@@ -2256,7 +2296,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0, core-js@^2.5.0:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
 
@@ -7865,6 +7905,12 @@ promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
 
+promise-sequence@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/promise-sequence/-/promise-sequence-0.3.1.tgz#a271e54df73ab78f80cbe4f686195cf843cd392c"
+  dependencies:
+    any-promise "^1.1.0"
+
 promise@^7.0.0, promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -8502,7 +8548,7 @@ regenerator-runtime@^0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
@@ -9016,6 +9062,10 @@ sequelize@^3.30.2:
     uuid "^3.0.0"
     validator "^5.2.0"
     wkx "0.2.0"
+
+sequence@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/sequence/-/sequence-3.0.0.tgz#5957d3e03c70e270b2009a8c8bdaa97338a6e170"
 
 sequencify@~0.0.7:
   version "0.0.7"

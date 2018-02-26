@@ -23,10 +23,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
     },
     isBought: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
     },
     isSold: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
     },
     payload: {
       type: DataTypes.STRING,
