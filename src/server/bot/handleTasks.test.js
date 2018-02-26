@@ -35,36 +35,36 @@ const orders = [
     }
 ]
 
-describe('handleTasks.js:', () => {
-    // it('should return array of orders', async () => {
-    //     const orders = await Promise.all(await handleTasks(tasks))
-    //     console.log('orders: ', orders);
-    //     expect(orders).to.have.length(2)
-    //     orders.forEach(order => {
-    //         expect(order).to.have.property('symbol', 'ETHBTC')
-    //     })
-    // })
+// describe('handleTasks.js:', () => {
+//     // it('should return array of orders', async () => {
+//     //     const orders = await Promise.all(await handleTasks(tasks))
+//     //     console.log('orders: ', orders);
+//     //     expect(orders).to.have.length(2)
+//     //     orders.forEach(order => {
+//     //         expect(order).to.have.property('symbol', 'ETHBTC')
+//     //     })
+//     // })
 
-    it('handleOrders()', async () => {
-        assert(
-            await Logs.count() == 0,
-            'there must be 0 Logs before function runs'
-        )
-        await handleOrders(orders)
-        await Logs.count()
-        await Logs.count()
-        const count = await Logs.count()
-        assert(
-            count == 1,
-            'there must be 1 Log after function runs'
-        )
-    })
+//     // it('handleOrders()', async () => {
+//     //     assert(
+//     //         await Logs.count() == 0,
+//     //         'there must be 0 Logs before function runs'
+//     //     )
+//     //     await handleOrders(orders)
+//     //     await Logs.count()
+//     //     await Logs.count()
+//     //     const count = await Logs.count()
+//     //     assert(
+//     //         count == 1,
+//     //         'there must be 1 Log after function runs'
+//     //     )
+//     // })
 
-    // it(
-    //     'handleOrders() if isTest updates "isBought" and "isSold"',
-    //     async () => {
+//     // it(
+//     //     'handleOrders() if isTest updates "isBought" and "isSold"',
+//     //     async () => {
 
-    //     }
-    // )
+//     //     }
+//     // )
 
-})
+// })

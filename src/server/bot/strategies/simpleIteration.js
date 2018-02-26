@@ -22,22 +22,33 @@ export default async function(task) {
      * Else do nothing.
      */
     try {
-        // gather data
-        const   balance = await Balances.getLatest(task.symbol.slice(0, -3)), // symbol second pair length could be a problem
-                price   = selectn('price', await Prices.getLatestPrice(task.symbol)),
-                hasEnoughCurrency = selectn('free', balance) >= task.toSpend * price
+        // Prepare variables.
+        // We use Decimal library because working with deciamals via
+        // native js functions is close to impossible. It is incredibly buggy.
+        const   buyAt     = new Decimal(task.buyAt),
+                sellAt    = new Decimal(task.sellAt),
+                toSpend   = new Decimal(task.toSpend)
+        // Gather data
+        const   balance = selectn('free', await Balances.getLatest(task.symbol.slice(0, -3))), // symbol second pair length could be a problem
+                price   = selectn('price', await Prices.getLatestPrice(task.symbol))
+        // Make calculations
+        const   profit    = toSpend.times(sellAt.minus(buyAt)),
+                fee       = toSpend.mul(new Decimal(0.01)),
+                hasEnoughCurrency = Decimal(balance).greaterThanOrEqualTo(Decimal(toSpend).times(price))
+        // console.log('price: ', price.toString());
+        // console.log('buyAt: ', buyAt.toString());
+        // console.log('balance', balance.toString());
+        // console.log('sellAt: ', sellAt.toString());
+        // console.log('toSpend: ', toSpend.toString());
+        // console.log('profit: ', profit.toString());
+        // console.log('fee: ', fee.toString());
+        // console.log('hasEnoughCurrency: ', hasEnoughCurrency);
         // check if prices are recent enough
         if (await !pricesAreRecent(task.symbol)) return
         // if user has enough currency and price is high enough he should sell it
-        if (hasEnoughCurrency && (task.sellAt <= price)) {
-            // We use Decimal library because working with deciamals via
-            // native js functions is close to impossible. It is incredibly buggy.
-            const   buyAt     = new Decimal(task.buyAt),
-                    sellAt    = new Decimal(task.sellAt),
-                    toSpend   = new Decimal(task.toSpend),
-                    profit    = toSpend.times(sellAt.minus(buyAt)),
-                    fee       = toSpend.mul(new Decimal(0.01))
-            await task.addMessage('did sell')
+        if (hasEnoughCurrency && sellAt.lessThanOrEqualTo(price)) {
+            console.log('about to SELL');
+            await task.addMessage(`Sold ${task.symbol} for ${price}. Profit is: ${profit}`)
             await task.update({
                 // FIXME: comment about this
                 isBought: false,
@@ -45,26 +56,14 @@ export default async function(task) {
                 // Increase spending amount with profit (minus trading fee)
                 toSpend: Number(toSpend.minus(fee).plus(profit)),
             })
-            return {
-                isSell: true,
-                isBought: task.isTest,
-                profit: Number(profit),
-                // Increase spending amount with profit (minus trading fee)
-                toSpend: Number(toSpend.minus(fee).plus(profit)),
-            }
         }
         // if user does not have currency and price is low enoung he should buy it
-        else if (!hasEnoughCurrency && (task.buyAt >= price)) {
-            await task.addMessage('did buy')
+        else if (!hasEnoughCurrency && buyAt.greaterThanOrEqualTo(price)) {
+            console.log('about to BUY');
+            await task.addMessage(`Bought ${task.symbol} for ${price}.`)
             await task.update({isBought: true})
-            // delete this in future
-            return {
-                isBuy: true,
-                // FIXME: add tests
-                // FIXME: add tests to buyAnSell
-                isBought: task.isTest
-            }
         }
+        else return Promise.resolve()
     }
     catch (error) {
         console.log(error)

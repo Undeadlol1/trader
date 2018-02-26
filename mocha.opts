@@ -1,4 +1,5 @@
-  --ui tdd
+  --reporter min
+  --ui bdd
   --no-exit
   --watch
   --no-exit

@@ -12,7 +12,6 @@ import session from 'express-session'
 import errorhandler from 'errorhandler'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
-import SSR from './middlewares/SSR'
 import moodsApi from './middlewares/moodsApi'
 import nodesApi from './middlewares/nodesApi'
 import usersApi from './middlewares/usersApi'
@@ -118,11 +117,11 @@ app.use('/api/externals', externalsApi)
 app.use('/api/forums', require('./middlewares/forumsApi').default)
 app.use('/api/threads', require('./middlewares/threadsApi').default)
 app.use('/api/comments', require('./middlewares/commentsApi').default)
-app.use('/api/tasks', require('./middlewares/tasksApi').default) 
+app.use('/api/tasks', require('./middlewares/tasksApi').default)
 // ⚠️ Hook for cli! Do not remove 💀
 
 // SPA
-app.use(SSR)
+if (process.env.NODE_ENV != 'test') app.use(require('./middlewares/SSR').default)
 
 // export app to use in test suits
 export default app.listen(port, () => {

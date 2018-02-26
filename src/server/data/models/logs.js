@@ -42,6 +42,13 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: {allowNull: false}
         });
       },
+      getLatest: function(TaskId, options) {
+        return Logs.findOne({
+          ...options,
+          where: {TaskId},
+          order: [['createdAt', 'ASC']],
+      })
+    },
     }
   });
   return Logs;
