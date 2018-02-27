@@ -1,4 +1,5 @@
 'use strict';
+var extend = require('lodash/assignIn')
 module.exports = function(sequelize, DataTypes) {
   var Logs = sequelize.define('Logs', {
     id: {
@@ -43,11 +44,17 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
       getLatest: function(TaskId, options) {
-        return Logs.findOne({
-          ...options,
-          where: {TaskId},
-          order: [['createdAt', 'ASC']],
-      })
+        // using "extend" to avoid using '...options' because in
+        // old versions of node es6 is not fully supported
+        return Logs.findOne(
+          extend(
+            options,
+            {
+              where: {TaskId},
+                order: [['createdAt', 'ASC']],
+            }
+          )
+        )
     },
     }
   });
