@@ -42,9 +42,9 @@ if (process.env.NODE_ENV != 'test') {
       // handle tasks if there are any
       if (activeTasks) {
         // 'handleTasks' returns orders
-        await handleOrders(
+        // await handleOrders(
           await Promise.all(await handleTasks(activeTasks))
-        )
+        // )
       }
     } catch (error) {
       throw error
