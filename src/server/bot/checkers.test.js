@@ -56,8 +56,11 @@ describe('checkers', () => {
             ]
             await Prices.bulkCreate(prices)
 
-            // function should return false because price is outdated
-            assert.isFalse(
+            const latestPrice = await pricesAreRecent(symbol)
+            console.log('latestPrice: ', latestPrice);
+
+            // function should return true because there is recent price
+            assert(
                 await pricesAreRecent(symbol),
                 'wrong return value'
             )

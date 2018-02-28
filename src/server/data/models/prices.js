@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
           return Prices.findOne({
             raw: true,
             where: {symbol: symbol},
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
         })
       },
       twoNewest: function(symbol) {

@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
           return Balances.findOne({
             raw: true,
             where: {asset: asset},
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
         })
       }
     }

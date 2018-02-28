@@ -51,7 +51,7 @@ module.exports = function(sequelize, DataTypes) {
             options,
             {
               where: {TaskId},
-                order: [['createdAt', 'ASC']],
+                order: [['createdAt', 'DESC']],
             }
           )
         )

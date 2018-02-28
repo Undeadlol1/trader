@@ -28,7 +28,7 @@ describe('simpleIteration should do', () => {
         await Balances.destroy({where: {asset}})
     })
 
-    it('BUY order if price is low enough and balance is low',
+    it('BUY order if price is low enough and balance is low AND ISTEST IS TRUE',
         async () => {
             // create "price" and "balance" documents
             await Prices.create({symbol, price: '0.89'})
@@ -37,6 +37,7 @@ describe('simpleIteration should do', () => {
             const task = await Tasks.create({
                 symbol,
                 id: TaskId,
+                isTest: true,
                 buyAt: '0.9',
                 sellAt: '1.0',
                 toSpend: '0.1',
@@ -47,6 +48,7 @@ describe('simpleIteration should do', () => {
             await simpleIteration(task)
             // must create Log document with information about order
             const log = await Logs.getLatest(TaskId)
+            assert.isNotNull(log, 'log should be created')
             expect(log).to.have.property('TaskId', TaskId)
             expect(log).to.have.property('message', 'Bought ETHBTC for 0.89.')
             // must update Task's isBought property
@@ -54,7 +56,7 @@ describe('simpleIteration should do', () => {
         }
     )
 
-    it('SELL order if price is reached and balance is full',
+    it('SELL order if price is reached and balance is full AND ISTEST IS TRUE',
         async () => {
             await Prices.create({symbol, price: '1.1'})
             await Balances.create({asset, free: '3.0'})
@@ -71,6 +73,7 @@ describe('simpleIteration should do', () => {
             const newSpendAmount = '0.109'
             // must create log document with info about selling
             const log = await Logs.getLatest(TaskId)
+            assert.isNotNull(log, 'log should be created')
             expect(log).to.have.property("TaskId", TaskId)
             expect(log).to.have.property('message', 'Sold ETHBTC for 1.1. Profit is: 0.01');
             // must update task with after sell information

@@ -35,23 +35,24 @@ export default async function(task) {
         const   profit    = Decimal(task.profit || 0).plus(toSpend.times(sellAt.minus(buyAt))),
                 fee       = toSpend.mul(new Decimal(0.01)),
                 hasEnoughCurrency = Decimal(balance).greaterThanOrEqualTo(Decimal(toSpend).times(price))
-        // console.log('buyAt: ', buyAt.toString());
-        // console.log('price: ', price.toString());
+        console.log('buyAt: ', buyAt.toString());
+        console.log('price: ', price.toString());
         // console.log('balance', balance.toString());
         // console.log('sellAt: ', sellAt.toString());
         // console.log('toSpend: ', toSpend.toString());
         // console.log('profit: ', profit.toString());
         // console.log('fee: ', fee.toString());
         // console.log('hasEnoughCurrency: ', hasEnoughCurrency);
-        // console.log('task.isBought: ', task.isBought);
+        console.log('Boolean(task.isBought): ', Boolean(task.isBought));
         // check if prices are recent enough
         if (await !pricesAreRecent(task.symbol)) return
         // if user has enough currency and price is high enough he should sell it
         if (
             (task.isTest && sellAt.lessThanOrEqualTo(price) && task.isBought)
-            || (hasEnoughCurrency && sellAt.lessThanOrEqualTo(price))
+            // TODO: this will be a problem in tsk.test = false
+            // || (hasEnoughCurrency && sellAt.lessThanOrEqualTo(price))
         ) {
-            // console.log('about to SELL');
+            console.log('about to SELL');
             await task.addMessage(`Sold ${task.symbol} for ${price}. Profit is: ${profit}`)
             await task.update({
                 // FIXME: comment about this
@@ -64,9 +65,10 @@ export default async function(task) {
         // if user does not have currency and price is low enough he should buy it
         else if (
             (task.isTest && buyAt.greaterThanOrEqualTo(price) && !task.isBought)
-            || (!hasEnoughCurrency && buyAt.greaterThanOrEqualTo(price))
+            // TODO: this will be a problem in tsk.test = false
+            // || (!hasEnoughCurrency && buyAt.greaterThanOrEqualTo(price))
         ) {
-            // console.log('about to BUY');
+            console.log('about to BUY');
             await task.addMessage(`Bought ${task.symbol} for ${price}.`)
             await task.update({isBought: true})
         }

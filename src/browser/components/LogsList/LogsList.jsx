@@ -31,7 +31,7 @@ class LogsList extends Component {
 														to={'/logs/' + log.get('slug')}
 													>
 														<ListItem
-															primaryText={log.get('name')}
+															primaryText={log.get('message')}
 														/>
 													</Link>
 									)
