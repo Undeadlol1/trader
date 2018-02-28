@@ -39,16 +39,23 @@ const routesConfig = {
     component: IndexPage,
     // fetch data
     onEnter({params}, replace, done) {
-      // fetch data every 10 seconds
-      const interval = 1000 * 10
-      setInterval(
-        () => store.dispatch(fetchTasks()),
-        interval
-      )
+      if (process.env.BROWSER) {
+        this.interval = setInterval(
+          () => {
+            console.log('interval is running in routes!!!!');
+            store.dispatch(fetchTasks())
+          },
+          // fetch data every 10 seconds
+          1000 * 10
+        )
+      }
       // and fetch once immediately
       store
       .dispatch(fetchTasks())
       .then(() => done())
+    },
+    onLeave() {
+      clearInterval(this.interval)
     }
   },
   childRoutes: [
@@ -122,16 +129,20 @@ const routesConfig = {
   path: 'tasks/(:id)',
   component: require('browser/pages/TaskPage').default,
   onEnter({params}, replace, done) {
-      // fetch data every 10 seconds
-      const interval = 1000 * 10
-      setInterval(
-        () => store.dispatch(fetchTask(params.id)),
-        interval
-      )
+      if (process.env.BROWSER) {
+        // fetch data every 10 seconds
+        this.interval = setInterval(
+          () => store.dispatch(fetchTask(params.id)),
+          1000 * 10
+        )
+      }
       // and fetch once immediately
       store
       .dispatch(fetchTask(params.id))
       .then(() => done())
+  },
+  onLeave() {
+    clearInterval(this.interval)
   }
 },
   // ⚠️ Hook for cli! Do not remove 💀,
