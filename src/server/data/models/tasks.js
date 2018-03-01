@@ -69,6 +69,11 @@ module.exports = function(sequelize, DataTypes) {
           message: payload,
           UserId: this.UserId,
         })
+        .catch(error => {
+          console.error('error occured before adding message')
+          console.error(error)
+          throw error
+        }
       },
       getLatestLog() {
         return Logs.getLatest(this.id)
