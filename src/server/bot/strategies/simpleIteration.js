@@ -53,7 +53,14 @@ export default async function(task) {
             // || (hasEnoughCurrency && sellAt.lessThanOrEqualTo(price))
         ) {
             console.log('about to SELL');
-            await task.addMessage(`Sold ${task.symbol} for ${price}. Profit is: ${profit}`)
+            const message = `Sold ${task.symbol} for ${price}. Profit is: ${profit}`
+            await Logs.create({
+                message,
+                TaskId: task.id,
+                UserId: task.UserId,
+            })
+            // this is probably the reason of errors in production
+            // await task.addMessage(message)
             await task.update({
                 // FIXME: comment about this
                 isBought: false,
@@ -69,7 +76,14 @@ export default async function(task) {
             // || (!hasEnoughCurrency && buyAt.greaterThanOrEqualTo(price))
         ) {
             console.log('about to BUY');
-            await task.addMessage(`Bought ${task.symbol} for ${price}.`)
+            const message = `Bought ${task.symbol} for ${price}.`
+            await Logs.create({
+                message,
+                TaskId: task.id,
+                UserId: task.UserId
+            })
+            // this is probably the reason of errors in production
+            // await task.addMessage(message)
             await task.update({isBought: true})
         }
         else return Promise.resolve()
