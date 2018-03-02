@@ -11,9 +11,10 @@ import { Row, Col } from 'react-styled-flexboxgrid'
 import Pagination from 'react-ultimate-pagination-material-ui'
 import { translate as t } from 'browser/containers/Translator'
 import { fetchThreads } from 'browser/redux/forum/ForumActions'
+import {injectIntl, intlShape, FormattedRelative} from 'react-intl'
 
 // TODO: comment about "parentId" and "onChange"
-
+@injectIntl
 class LogsList extends Component {
 	render() {
 		const {props} = this
@@ -31,7 +32,9 @@ class LogsList extends Component {
 														to={'/logs/' + log.get('slug')}
 													>
 														<ListItem
-															primaryText={log.get('message')}
+															primaryText={
+																`${log.get('message')} at ${props.intl.formatTime(log.get('createdAt'))}`
+															}
 														/>
 													</Link>
 									)
