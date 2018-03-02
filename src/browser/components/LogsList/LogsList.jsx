@@ -33,7 +33,7 @@ class LogsList extends Component {
 													>
 														<ListItem
 															primaryText={
-																`${log.get('message')} at ${props.intl.formatTime(log.get('createdAt'))}`
+																`${log.get('message')} at ${props.intl.formatDate(log.get('createdAt'))} ${props.intl.formatTime(log.get('createdAt'))}`
 															}
 														/>
 													</Link>
