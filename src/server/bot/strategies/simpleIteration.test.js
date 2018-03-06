@@ -92,13 +92,6 @@ describe('simpleIteration should do', () => {
      * Afterwards test will verify were currency was sold or bought,
      * was Task updated properly and were Log documents created.
      */
-    /**
-     * NOTE: explanation for myself:
-     * just write down what should happane after multiple iterations with certain values
-     * Make iteration
-     * and verify results
-     * Do not bother to verify everything in between
-     */
     it('multiple iterations properly if {test: true} is set',
         async () => {
             const asset = 'CND'
@@ -160,7 +153,10 @@ describe('simpleIteration should do', () => {
             )
         }
     )
-
+    /**
+     * This tests verify that in every unmet condition
+     * function does nothing.
+     */
     describe('nothing if', () => {
         const anotherTaskId = generateUuid()
         // destory task after each test to avoid errors
