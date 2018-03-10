@@ -26,18 +26,19 @@ class LogsList extends Component {
 							<List>
 								{
 									logs.size
-									? logs.map(
-										log => 	<Link
-														key={log.get('id')}
-														to={'/logs/' + log.get('slug')}
-													>
-														<ListItem
-															primaryText={
-																`${log.get('message')} at ${props.intl.formatDate(log.get('createdAt'))} ${props.intl.formatTime(log.get('createdAt'))}`
-															}
-														/>
-													</Link>
-									)
+									? logs.map(log => {
+										const message = log.get('message')
+														+ ` at ${props.intl.formatDate(log.get('createdAt'))}`
+														+ ` ${props.intl.formatTime(log.get('createdAt'))}`
+										return <Link
+											key={log.get('id')}
+											to={'/logs/' + log.get('slug')}
+										>
+											<ListItem
+												primaryText={message}
+											/>
+										</Link>
+									})
 									: 	<ListItem
 											disabled={true}
 											className="LogsList__empty"
