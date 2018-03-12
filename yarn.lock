@@ -1290,6 +1290,15 @@ bignumber.js@4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-4.0.4.tgz#7c40f5abcd2d6623ab7b99682ee7db81b11889a4"
 
+binance-api-node@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/binance-api-node/-/binance-api-node-0.7.1.tgz#93f5fd9f77131fe4d486812c92e1852b55000eb2"
+  dependencies:
+    html5-websocket "^2.0.2"
+    isomorphic-fetch "^2.2.1"
+    lodash.zipobject "^4.1.3"
+    reconnecting-websocket "^3.2.2"
+
 binance@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/binance/-/binance-1.3.2.tgz#bdd9ac4c3cc3db8d74bfdd67ecf3f4e41e44d59b"
@@ -4768,6 +4777,12 @@ html-webpack-plugin@^2.28.0:
     pretty-error "^2.0.2"
     toposort "^1.0.0"
 
+html5-websocket@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/html5-websocket/-/html5-websocket-2.0.2.tgz#52bff70507b61c7457ed693fed47ad9244dab438"
+  dependencies:
+    ws "^3.1.0"
+
 html@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/html/-/html-1.0.0.tgz#a544fa9ea5492bfb3a2cca8210a10be7b5af1f61"
@@ -6028,6 +6043,10 @@ lodash.toarray@^4.4.0:
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
+
+lodash.zipobject@^4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/lodash.zipobject/-/lodash.zipobject-4.1.3.tgz#b399f5aba8ff62a746f6979bf20b214f964dbef8"
 
 lodash@3.0.x:
   version "3.0.1"
@@ -8403,6 +8422,10 @@ recompose@0.24.0:
     fbjs "^0.8.1"
     hoist-non-react-statics "^1.0.0"
     symbol-observable "^1.0.4"
+
+reconnecting-websocket@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/reconnecting-websocket/-/reconnecting-websocket-3.2.2.tgz#8097514e926e9855e03c39e76efa2e3d1f371bee"
 
 redefine@^0.2.0:
   version "0.2.1"
