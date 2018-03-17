@@ -1,6 +1,6 @@
 import 'isomorphic-fetch' // TODO move to server? or to webpack?
 import binanceApi from 'binance'
-import { Prices, Balances } from 'server/data/models'
+import { Prices, Balances, Candles } from 'server/data/models'
 
 const apiKey = process.env.BINANCE_KEY
 const secretKey = process.env.BINANCE_SECRET
@@ -87,4 +87,34 @@ export function fetchBalance() {
             console.error(error)
             throw error
         })
+}
+/**
+ * Fetch candles historical data based on symbol.
+ * @param {Object} options
+ * @param {string} options.symbol
+ * @param {string} options.interval ENUM: [1m, 1h, and so on]
+ * @param {number} options.startTime start date
+ * @param {number} options.endTime end date
+ * @export
+ */
+export async function fetchCandles(options) {
+    /**
+     * 1) check if candles already exist and if fetching is needed at all.
+     */
+    try {
+        if (process.env.NODE_ENV == 'test') return Promise.resolve([])
+        else {
+            const existingCandles = await Candles.findAll({
+                where: {
+                    symbol: options.symbol,
+                }
+            })
+            const   client = require('binance-api-node')(),
+                    candles = await client.candles(options)
+            await Candles.bulkCreate(candles)
+            return candles
+        }
+    } catch (error) {
+        throw error
+    }
 }
