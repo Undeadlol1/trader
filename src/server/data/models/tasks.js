@@ -39,6 +39,14 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: false,
       type: DataTypes.BOOLEAN,
     },
+    // Dates for backtest
+    endTime: DataTypes.DATE,
+    startTime: DataTypes.DATE,
+    isBacktest: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN,
+    },
     isTest: {
       allowNull: false,
       defaultValue: false,

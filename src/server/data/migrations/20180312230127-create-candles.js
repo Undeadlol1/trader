@@ -9,6 +9,14 @@ module.exports = {
         validate: { isUUID: 4 },
         defaultValue: Sequelize.UUIDV4,
       },
+      symbol: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      interval: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       openTime: Sequelize.STRING,
       closeTime: Sequelize.STRING,
       open: Sequelize.STRING,

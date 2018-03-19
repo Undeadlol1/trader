@@ -8,6 +8,14 @@ module.exports = function (sequelize, DataTypes) {
       validate: { isUUID: 4 },
       defaultValue: DataTypes.UUIDV4,
     },
+    symbol: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    interval: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
     // fetcher response format as shown here
     // https://www.npmjs.com/package/binance-api-node#candles
     openTime: DataTypes.STRING,
@@ -21,6 +29,9 @@ module.exports = function (sequelize, DataTypes) {
     baseAssetVolume: DataTypes.STRING,
     trades: DataTypes.STRING,
   }, {
+      defaultScope: {
+        order: [['closeTime', 'DESC']],
+      },
       classMethods: {
         tableName: 'candles',
         freezeTableName: true,
