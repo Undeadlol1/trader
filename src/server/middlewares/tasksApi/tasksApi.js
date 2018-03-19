@@ -5,7 +5,12 @@ import { setInterval } from 'timers'
 import { Tasks, Logs } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
 import handleTasks, { handleOrders } from 'server/bot/handleTasks'
-import { fetchPricesAndSave, fetchBalance, fetchOpenOrders } from 'server/bot/binanceApi'
+import {
+  fetchBalance,
+  fetchOpenOrders,
+  prefetchCandles,
+  fetchPricesAndSave,
+} from 'server/bot/binanceApi'
 
 const limit = 12
 const interval = 1000 * 30 * 2 // 1 minute minimum to avoid timeout
@@ -32,8 +37,10 @@ if (process.env.NODE_ENV != 'test') {
   setInterval(async () => {
     try {
       console.log('interval is running')
-      // fetch data
+      // fetch latest prices
       await fetchPricesAndSave()
+      // prefetch candles for backtesting
+      // prefetchCandles()
       // await fetchBalance()
       // TODO: i disabled this temporary
       // global.orders = await fetchOpenOrders()

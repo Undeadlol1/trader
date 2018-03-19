@@ -1,7 +1,9 @@
 import selectn from 'selectn'
 import { Decimal } from 'decimal.js'
+import logNamespace from 'debug-logger'
 import { pricesAreRecent } from '../checkers'
 import { Tasks, Prices, Logs, Balances } from 'server/data/models'
+const debug = logNamespace('simpleIteration')
 /**
  * Simple strategy which buys and sells currency at given price.
  * Works until is manually cancelled.
@@ -35,15 +37,15 @@ export default async function(task) {
         const   profit    = Decimal(task.profit || 0).plus(toSpend.times(sellAt.minus(buyAt))),
                 fee       = toSpend.mul(new Decimal(0.01)),
                 hasEnoughCurrency = Decimal(balance).greaterThanOrEqualTo(Decimal(toSpend).times(price))
-        console.log('buyAt: ', buyAt.toString());
-        console.log('price: ', price.toString());
-        // console.log('balance', balance.toString());
-        // console.log('sellAt: ', sellAt.toString());
-        // console.log('toSpend: ', toSpend.toString());
-        // console.log('profit: ', profit.toString());
-        // console.log('fee: ', fee.toString());
-        // console.log('hasEnoughCurrency: ', hasEnoughCurrency);
-        console.log('Boolean(task.isBought): ', Boolean(task.isBought));
+        debug('buyAt: ', buyAt.toString())
+        debug('price: ', price.toString())
+        debug('balance', balance.toString())
+        debug('sellAt: ', sellAt.toString())
+        debug('toSpend: ', toSpend.toString())
+        debug('profit: ', profit.toString())
+        debug('fee: ', fee.toString())
+        debug('hasEnoughCurrency: ', hasEnoughCurrency)
+        debug('Boolean(task.isBought): ', Boolean(task.isBought))
         // check if prices are recent enough
         if (await !pricesAreRecent(task.symbol)) return
         // if user has enough currency and price is high enough he should sell it
@@ -52,7 +54,7 @@ export default async function(task) {
             // TODO: this will be a problem in tsk.test = false
             // || (hasEnoughCurrency && sellAt.lessThanOrEqualTo(price))
         ) {
-            console.log('about to SELL');
+            // console.log('about to SELL');
             const message = `Sold ${task.symbol} for ${price}. Profit is: ${profit}`
             await Logs.create({
                 message,
@@ -75,7 +77,7 @@ export default async function(task) {
             // TODO: this will be a problem in tsk.test = false
             // || (!hasEnoughCurrency && buyAt.greaterThanOrEqualTo(price))
         ) {
-            console.log('about to BUY');
+            // console.log('about to BUY');
             const message = `Bought ${task.symbol} for ${price}.`
             await Logs.create({
                 message,

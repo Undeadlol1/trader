@@ -57,7 +57,6 @@ describe('checkers', () => {
             await Prices.bulkCreate(prices)
 
             const latestPrice = await pricesAreRecent(symbol)
-            console.log('latestPrice: ', latestPrice);
 
             // function should return true because there is recent price
             assert(
