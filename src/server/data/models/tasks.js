@@ -42,7 +42,11 @@ module.exports = function(sequelize, DataTypes) {
     // Dates for backtest
     endTime: DataTypes.DATE,
     startTime: DataTypes.DATE,
-    interval: DataTypes.STRING,
+    interval: {
+      allowNull: false,
+      defaultValue: '1m',
+      type: DataTypes.STRING,
+    },
     isBacktest: {
       allowNull: false,
       defaultValue: false,
