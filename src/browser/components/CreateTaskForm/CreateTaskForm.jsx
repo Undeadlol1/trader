@@ -24,6 +24,7 @@ import {
 	TextField,
 	Switch,
 	SelectField,
+	DatePicker,
 } from 'redux-form-material-ui'
 import Paper from 'material-ui/Paper'
 
@@ -38,6 +39,7 @@ export class CreateTaskForm extends Component {
 		// hide component if user is not admin
 		// if (this.props.UserId != process.env.ADMIN_ID) return null
 		const { props } = this
+		console.log('props: ', props);
 		const { insertTask, handleSubmit, asyncValidating } = props
 		const classNames = cls(props.className, "CreateTaskForm")
 		const isDisabled = asyncValidating == 'name' || props.submitting
@@ -98,6 +100,17 @@ export class CreateTaskForm extends Component {
 									floatingLabelText="sellAt"
 								/>
 								<Field name="isTest" component={renderCheckbox} label="Тест?"/>
+								<Field name="isBacktest" component={renderCheckbox} label="Backtest?" />
+								<Field name="startTime" fullWidth component={DatePicker} format={null} hintText="Start time" />
+								<Field name="endTime" fullWidth component={DatePicker} format={null} hintText="End time" />
+								<Field
+									fullWidth
+									name="interval"
+									hintText="Interval"
+									component={TextField}
+									hidden={asyncValidating}
+									floatingLabelText="Interval"
+								/>
 								<center>
 									<RaisedButton
 										type="submit"
@@ -146,10 +159,12 @@ export default reduxForm({
     (dispatch, ownProps) => ({
         insertTask(values) {
 			console.log('values: ', values);
-			dispatch(
-				insertTask({...values})
-			)
-			.then(() => ownProps.reset())
+			console.log('values.endTime: ', values.endTime);
+			console.log('typeof values.endTime: ', typeof values.endTime);
+			// dispatch(
+			// 	insertTask({...values})
+			// )
+			// .then(() => ownProps.reset())
 
 		}
     })
