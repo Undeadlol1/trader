@@ -9,16 +9,19 @@ import simpleIteration from 'server/bot/strategies/simpleIteration'
  */
 export default async function handleTasks(tasks) {
     try {
-        return await tasks.map(async task => {
-            switch (task.strategy) {
-                case 'buy_sell':
-                    return await buyAndSell(task)
-                case 'simple_iteration':
-                    return await simpleIteration(task)
-                default:
-                    return
-            }
-        })
+        const functions = {
+            buy_sell: buyAndSell,
+            simple_iteration: simpleIteration,
+        }
+        // Run backtests if needed.
+        if (task.isBacktest) {
+            // const data
+            return await functions[task.strategy](task)
+        }
+        // Or run task's strategies normally.
+        else {
+            return functions[task.strategy](task)
+        }
     } catch (error) {
         throw error
     }
