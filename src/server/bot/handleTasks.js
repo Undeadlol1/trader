@@ -1,6 +1,11 @@
-import { Logs, Tasks } from 'server/data/models'
+import { Logs, Tasks, Candles } from 'server/data/models'
 import buyAndSell from 'server/bot/strategies/buyAndSell'
 import simpleIteration from 'server/bot/strategies/simpleIteration'
+
+const functions = {
+    buy_sell: buyAndSell,
+    simple_iteration: simpleIteration,
+}
 
 /**
  * go over tasks and handle them with proper strategies
@@ -9,13 +14,22 @@ import simpleIteration from 'server/bot/strategies/simpleIteration'
  */
 export default async function handleTasks(tasks) {
     try {
-        const functions = {
-            buy_sell: buyAndSell,
-            simple_iteration: simpleIteration,
-        }
         // Run backtests if needed.
         if (task.isBacktest) {
-            // const data
+            const startAt = await Candles.findAll({
+                where: {
+                    symbol: task.symbol,
+                    interval: task.interval || '1m',
+                    // openTime: 'somethingdfska;l' task.startTime,
+                }
+            })
+            const endAt = await Candles.findAll({
+                where: {
+                    symbol: task.symbol,
+                    interval: task.interval || '1m',
+                    // closeTime: 'somethingdfska;l' task.endTime,
+                }
+            })
             return await functions[task.strategy](task)
         }
         // Or run task's strategies normally.
